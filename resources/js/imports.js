@@ -1,0 +1,21 @@
+import Vue from "vue";
+
+Vue.component('imageinput', r => require.ensure([], () => r(require('./components/ImageInput/ImageInput.vue')), `js/imageinput`));
+Vue.component('slug', r => require.ensure([], () => r(require('./components/Translit/translit.vue')), 'js/sluggenerator'));
+Vue.component('galleryImages', r => require.ensure([], () => r(require('./components/Galleries/images.vue')), 'js/galleries'));
+Vue.component('profit', r => require.ensure([], () => r(require('./components/Charts/profit.vue')), 'js/charts'));
+Vue.component('manager-profit', r => require.ensure([], () => r(require('./components/Charts/manager_profit.vue')), 'js/charts'));
+Vue.component('inventory-stats', r => require.ensure([], () => r(require('./components/Statistics/inventory.vue')), 'js/statistics'));
+Vue.component('paginatable-box', r => require.ensure([], () => r(require('./components/PaginatableBox/paginatable-box.vue')), 'js/paginatable-box'));
+Vue.component('delete-btn', r => require.ensure([], () => r(require('./components/DeleteBtn/delete-btn.vue')), 'js/delete-btn'));
+Vue.component('dealsTable', r => require.ensure([], () => r(require('./components/Tables/Deals/deals.vue')), 'js/tables/deals-table'));
+Vue.component('inventoryTable', r => require.ensure([], () => r(require('./components/Tables/Inventory/inventory.vue')), 'js/tables/inventory-table'));
+Vue.component('clientsTable', r => require.ensure([], () => r(require('./components/Tables/Clients/clients.vue')), 'js/tables/clients-table'));
+Vue.component('clientsList', r => require.ensure([], () => r(require('./components/Deals/clients_list')), 'js/deals'));
+Vue.component('inventoryList', r => require.ensure([], () => r(require('./components/Deals/inventory_list')), 'js/deals'));
+Vue.component('dealDates', r => require.ensure([], () => r(require('./components/Deals/deal_dates')), 'js/deals'));
+Vue.component('dealParams', r => require.ensure([], () => r(require('./components/Deals/deal_params')), 'js/deals'));
+Vue.component('deal-document', r => require.ensure([], () => r(require('./components/Deals/deal_document')), 'js/deal-document'));
+Vue.component('deal-manager-profit', r => require.ensure([], () => r(require('./components/Deals/deal_manager_profit')), 'js/deal-manager-profit'));
+Vue.component('editor', r => require.ensure([], () => r(require('./components/FormComponents/editor')), 'js/editor'));
+Vue.component('profitCalendar', r => require.ensure([], () => r(require('./components/Calendars/Profit/profit_calendar')), 'js/profit-calendar'));

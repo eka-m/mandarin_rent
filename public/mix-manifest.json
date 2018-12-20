@@ -1,0 +1,21 @@
+{
+    "/js/deals.js": "/js/deals.js",
+    "/js/charts.js": "/js/charts.js",
+    "/js/profit-calendar.js": "/js/profit-calendar.js",
+    "/js/tables/deals-table.js": "/js/tables/deals-table.js",
+    "/js/tables/inventory-table.js": "/js/tables/inventory-table.js",
+    "/js/tables/clients-table.js": "/js/tables/clients-table.js",
+    "/js/galleries.js": "/js/galleries.js",
+    "/js/editor.js": "/js/editor.js",
+    "/js/statistics.js": "/js/statistics.js",
+    "/js/paginatable-box.js": "/js/paginatable-box.js",
+    "/js/imageinput.js": "/js/imageinput.js",
+    "/js/delete-btn.js": "/js/delete-btn.js",
+    "/js/deal-manager-profit.js": "/js/deal-manager-profit.js",
+    "/js/deal-document.js": "/js/deal-document.js",
+    "/js/sluggenerator.js": "/js/sluggenerator.js",
+    "/js/app.js": "/js/app.js",
+    "/js/custom.js": "/js/custom.js",
+    "/js/login.js": "/js/login.js",
+    "/css/app.css": "/css/app.css"
+}

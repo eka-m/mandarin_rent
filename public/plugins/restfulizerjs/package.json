@@ -1,0 +1,46 @@
+{
+  "_from": "restfulizerjs@^1.0.0",
+  "_id": "restfulizerjs@1.0.0",
+  "_inBundle": false,
+  "_integrity": "sha1-pWkg+O82BBLyGZRiLnFMzMaIhB8=",
+  "_location": "/restfulizerjs",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "restfulizerjs@^1.0.0",
+    "name": "restfulizerjs",
+    "escapedName": "restfulizerjs",
+    "rawSpec": "^1.0.0",
+    "saveSpec": null,
+    "fetchSpec": "^1.0.0"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/restfulizerjs/-/restfulizerjs-1.0.0.tgz",
+  "_shasum": "a56920f8ef360412f21994622e714cccc688841f",
+  "_spec": "restfulizerjs@^1.0.0",
+  "_where": "/Volumes/Files/Work/MANDARIN",
+  "author": {
+    "name": "Ifnot"
+  },
+  "bugs": {
+    "url": "https://github.com/cronoh/RestfulizerJs/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "RestfulizerJs ==========",
+  "homepage": "https://github.com/cronoh/RestfulizerJs#readme",
+  "license": "ISC",
+  "main": "jquery.restfulizer.js",
+  "name": "restfulizerjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cronoh/RestfulizerJs.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.0"
+}

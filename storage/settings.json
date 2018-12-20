@@ -1,0 +1,47 @@
+{
+  "app-settings": [
+    {
+      "name": "log"
+    }
+  ],
+  "currencies": {
+    "default": 0,
+    "list": [
+      {
+        "name": "Azerbaijan manat",
+        "slug": "AZN",
+        "code": "&#8380;"
+      },
+      {
+        "name": "USA Dollar",
+        "slug": "USD",
+        "code": "&#36;"
+      },
+      {
+        "name": "Great Britain Pound",
+        "slug": "GBP",
+        "code": "&#163;"
+      },
+      {
+        "name": "Euro",
+        "slug": "EUR",
+        "code": "&#36;"
+      },
+      {
+        "name": "Russian Ruble",
+        "slug": "RUB",
+        "code": "&#8381;"
+      },
+      {
+        "name": "Kazakhstan Tenge",
+        "slug": "KZT",
+        "code": "&#8376;"
+      },
+      {
+        "name": "Turkish Lira",
+        "slug": "TRY",
+        "code": "&#8378;"
+      }
+    ]
+  }
+}
