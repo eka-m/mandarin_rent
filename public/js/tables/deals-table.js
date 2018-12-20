@@ -664,7 +664,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         lookDate: function lookDate() {
             var _this2 = this;
 
-            $(this.$refs.closedDate).datetimepicker({ locale: 'ru', format: "yyyy-mm-dd hh:ii" }).on("changeDate", function (e) {
+            $(this.$refs.closedDate).datetimepicker({ locale: "ru", format: "yyyy-mm-dd hh:ii", autoclose: true, todayBtn: true, todayHighlight: true }).on("changeDate", function (e) {
                 _this2.deal.closed = moment(e.date.valueOf()).format("YYYY-MM-DD HH:mm");
             });
         },

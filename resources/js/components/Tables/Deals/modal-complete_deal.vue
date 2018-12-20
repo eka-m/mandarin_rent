@@ -179,7 +179,7 @@
                 this.deal.sale = Number(100 - (this.deal.price * 100) / this.deal.realprice).toFixed(1);
             },
             lookDate() {
-                $(this.$refs.closedDate).datetimepicker({locale: 'ru', format: "yyyy-mm-dd hh:ii"})
+                $(this.$refs.closedDate).datetimepicker({locale: "ru", format: "yyyy-mm-dd hh:ii", autoclose:true, todayBtn:true, todayHighlight:true})
 		                .on("changeDate", e => {
                     this.deal.closed = moment(e.date.valueOf()).format("YYYY-MM-DD HH:mm");
                 });
