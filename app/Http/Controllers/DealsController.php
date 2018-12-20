@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use Carbon\Carbon;
+use function GuzzleHttp\Promise\all;
 use Illuminate\Http\Request;
 use App\Models\Deal;
 use Kamaln7\Toastr\Facades\Toastr;
@@ -145,39 +146,14 @@ class DealsController extends BaseController
 
     public function closeDeal(Request $request, $id)
     {
-
         try {
             $deal = Deal::find($id);
-            $deal->status = $request->get('status');
-            $deal->price = $request->get('price');
-            $deal->sale = $request->get('sale');
-            $deal->manager_profit = $request->get('manager_profit');
-            $deal->manager_profit_type = $request->get('manager_profit_type');
-            $deal->closed = $request->get('closed');
+            $deal->update($request->all());
             $items = $deal->items;
-            $deal->save();
             foreach ($items as $item) {
-                switch ($deal->status) {
-                    case 'active':
-                        $item->status = 'onRent';
-                        break;
-                    case 'waiting':
-                        $item->status = 'pending';
-                        break;
-                    case 'planned':
-                        $item->status = 'pending';
-                        break;
-                    case 'finished':
-                        $item->status = 'available';
-                        activity('notify')->state('info')->log("Сделка <a href='/admin/rent/deals/$deal->id'>$deal->hash</a> завершена.");
-                        break;
-                    case 'notpaid':
-                        $item->status = 'available';
-                        activity('notify')->state('warning')->log("Сделка <a href='/admin/rent/deals/$deal->id'>$deal->hash</a> завершена. Но не оплачена.");
-                        break;
-                }
-                $item->save();
+                $item->update(['status' => 'available']);
             }
+            activity('notify')->state('info')->log("Сделка <a href='/admin/rent/deals/$deal->id'>$deal->hash</a> завершена.");
             return response()->json(["message" => 'Статус сделки успешно изменен.'], 200);
         } catch (\Exception $e) {
             return response()->json('Ооооопс... Что-то пошло не так.', 500);

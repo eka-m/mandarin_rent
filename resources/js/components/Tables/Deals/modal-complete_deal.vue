@@ -154,12 +154,10 @@
             this.init();
             this.lookDate();
             this.modalEvent();
-            $(this.$refs.closedDate).datetimepicker({locale: 'ru', format: "yyyy-mm-dd hh:ii"})
         },
         methods: {
             init() {
                 EventBus.$on("complete.deal", data => {
-                // $(document).on("complete.deal", (e, data) => {
                     for (let item in this.deal) {
                         let value = this.table.row("#" + data.id).data()[item];
                         if (item === "status" && value !== "notpaid") {
@@ -181,7 +179,8 @@
                 this.deal.sale = Number(100 - (this.deal.price * 100) / this.deal.realprice).toFixed(1);
             },
             lookDate() {
-                $(this.$refs.dealdateInput).datepicker().on("changeDate", function (e) {
+                $(this.$refs.closedDate).datetimepicker({locale: 'ru', format: "yyyy-mm-dd hh:ii"})
+		                .on("changeDate", e => {
                     this.deal.closed = moment(e.date.valueOf()).format("YYYY-MM-DD HH:mm");
                 });
             },

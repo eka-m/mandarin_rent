@@ -465,7 +465,7 @@ exports = module.exports = __webpack_require__(75)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -636,7 +636,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.init();
         this.lookDate();
         this.modalEvent();
-        $(this.$refs.closedDate).datetimepicker({ locale: 'ru', format: "yyyy-mm-dd hh:ii" });
     },
 
     methods: {
@@ -644,7 +643,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             __WEBPACK_IMPORTED_MODULE_0__event_bus__["a" /* EventBus */].$on("complete.deal", function (data) {
-                // $(document).on("complete.deal", (e, data) => {
                 for (var item in _this.deal) {
                     var value = _this.table.row("#" + data.id).data()[item];
                     if (item === "status" && value !== "notpaid") {
@@ -664,8 +662,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.deal.sale = Number(100 - this.deal.price * 100 / this.deal.realprice).toFixed(1);
         },
         lookDate: function lookDate() {
-            $(this.$refs.dealdateInput).datepicker().on("changeDate", function (e) {
-                this.deal.closed = moment(e.date.valueOf()).format("YYYY-MM-DD HH:mm");
+            var _this2 = this;
+
+            $(this.$refs.closedDate).datetimepicker({ locale: 'ru', format: "yyyy-mm-dd hh:ii" }).on("changeDate", function (e) {
+                _this2.deal.closed = moment(e.date.valueOf()).format("YYYY-MM-DD HH:mm");
             });
         },
         modal: function modal(action) {
@@ -675,11 +675,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             $(this.$refs.completeModal).on("hide.bs.modal", function (e) {});
         },
         saveDealData: function saveDealData() {
-            var _this2 = this;
+            var _this3 = this;
 
             axios.put(route('async.deals.close', this.deal.id), this.deal).then(function () {
-                _this2.modal("hide");
-                _this2.table.ajax.reload();
+                _this3.modal("hide");
+                _this3.table.ajax.reload();
             });
         }
     }
