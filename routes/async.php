@@ -26,4 +26,5 @@ Route::put('/deals/close/{id}', 'DealsController@closeDeal')->name('deals.close'
 /* STATISTICS  _______________________________________________________________________________________________________________________*/
 Route::post('/statistics/calendar', 'StatisticsController@calendar')->name('statistics.calendar');
 Route::get('/statistics/year/{year}/{manager?}', 'StatisticsController@profit')->name('statistics.year');
+Route::get('/statistics/general/year/{year}', 'StatisticsController@generalProfit')->name('statistics.general');
 /* END STATISTICS  ___________________________________________________________________________________________________________________*/

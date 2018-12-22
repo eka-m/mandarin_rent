@@ -35,7 +35,7 @@ exports = module.exports = __webpack_require__(75)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -47,6 +47,19 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -157,12 +170,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 start: moment(window.appStarts).format('YYYY'),
                 end: moment().format('YYYY'),
                 selected: moment().format('YYYY')
-            }
+            },
+            general: false
         };
     },
     watch: {
         "dates.selected": function datesSelected(value) {
-            this.getData(value);
+            this.getData();
+        },
+        general: function general() {
+            this.getData();
         }
     },
     created: function created() {
@@ -291,11 +308,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             });
         },
-        getData: function getData(year) {
+        getData: function getData() {
             var _this2 = this;
 
             mApp.block(this.$refs.graphContainer, {});
-            axios.get(route('async.statistics.year', year)).then(function (r) {
+            var type = this.general ? 'general' : 'year';
+            axios.get(route('async.statistics.' + type, this.dates.selected)).then(function (r) {
                 if (r.status === 200) {
                     _this2.data = r.data;
                     _this2.reloadChart();
@@ -312,7 +330,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         calculatePrices: function calculatePrices(data) {
-            return Math.round(data.reduce(function (a, b) {
+            return Number(data.reduce(function (a, b) {
                 return a + b;
             }, 0)).toFixed(2);
         }
@@ -340,60 +358,90 @@ var render = function() {
         _vm._m(0),
         _vm._v(" "),
         _c("div", { staticClass: "m-portlet__head-tools" }, [
-          _c(
-            "select",
-            {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.dates.selected,
-                  expression: "dates.selected"
+          _c("div", { staticClass: "form-group" }, [
+            _c(
+              "button",
+              {
+                class:
+                  "btn m-btn m-btn--icon m-btn m-btn--custom mr-2 btn-" +
+                  (_vm.general ? "info" : "brand"),
+                on: {
+                  click: function($event) {
+                    _vm.general = !_vm.general
+                  }
                 }
-              ],
-              ref: "yearSelect",
-              attrs: { "data-width": "100px" },
-              on: {
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.$set(
-                    _vm.dates,
-                    "selected",
-                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                  )
-                }
-              }
-            },
-            [
-              _c("option", { domProps: { value: _vm.dates.start } }, [
-                _vm._v(_vm._s(_vm.dates.start))
-              ]),
-              _vm._v(" "),
-              _vm._l(_vm.dates.end - _vm.dates.start, function(year, key) {
-                return _c(
-                  "option",
-                  {
-                    key: key,
-                    domProps: { value: Number(_vm.dates.start) + Number(year) }
-                  },
-                  [
-                    _vm._v(
-                      _vm._s(Number(_vm.dates.start) + Number(year)) +
-                        "\n                "
-                    )
-                  ]
+              },
+              [
+                _c("i", {
+                  class: "la la-" + (_vm.general ? "circle-o" : "dot-circle-o")
+                }),
+                _vm._v(
+                  "\n\t\t\t\t\t\t\t\t\t\t\t\t" +
+                    _vm._s(_vm.general ? "Возможная" : "Реальная") +
+                    "\n\t\t\t\t\t\t\t\t\t\t"
                 )
-              })
-            ],
-            2
-          )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group mr-3" }, [
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.dates.selected,
+                    expression: "dates.selected"
+                  }
+                ],
+                ref: "yearSelect",
+                attrs: { "data-width": "100px" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.$set(
+                      _vm.dates,
+                      "selected",
+                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                    )
+                  }
+                }
+              },
+              [
+                _c("option", { domProps: { value: _vm.dates.start } }, [
+                  _vm._v(_vm._s(_vm.dates.start))
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.dates.end - _vm.dates.start, function(year, key) {
+                  return _c(
+                    "option",
+                    {
+                      key: key,
+                      domProps: {
+                        value: Number(_vm.dates.start) + Number(year)
+                      }
+                    },
+                    [
+                      _vm._v(
+                        _vm._s(Number(_vm.dates.start) + Number(year)) +
+                          "\n\t\t\t\t\t\t\t\t\t\t\t\t"
+                      )
+                    ]
+                  )
+                })
+              ],
+              2
+            )
+          ])
         ])
       ]),
       _vm._v(" "),
@@ -414,7 +462,7 @@ var render = function() {
                         _c("div", { staticClass: "m-widget21__info" }, [
                           _c("span", { staticClass: "m-widget21__title" }, [
                             _vm._v(
-                              "\n                                Общая\n                            "
+                              "\n                                    Общая\n                                "
                             )
                           ]),
                           _c("br"),
@@ -472,7 +520,7 @@ var render = function() {
                         _c("div", { staticClass: "m-widget21__info" }, [
                           _c("span", { staticClass: "m-widget21__title" }, [
                             _vm._v(
-                              "\n                                Оплаченные\n                            "
+                              "\n                                    Оплаченные\n                                "
                             )
                           ]),
                           _c("br"),
@@ -600,7 +648,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "m-portlet__head-caption" }, [
       _c("div", { staticClass: "m-portlet__head-title" }, [
         _c("h3", { staticClass: "m-portlet__head-text" }, [
-          _vm._v("\n                    Прибыль\n                ")
+          _vm._v("\n\t\t\t\t\t\t\t\t\t\t\t\tПрибыль\n\t\t\t\t\t\t\t\t\t\t")
         ])
       ])
     ])
@@ -905,7 +953,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (this.data) {
                 return this.data.finished.map(function (item, index) {
-                    return Number(Math.round(item + _this2.data.notpaid[index]).toFixed(2));
+                    return Number((item + _this2.data.notpaid[index]).toFixed(2));
                 });
             }
         }
@@ -1055,9 +1103,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         calculatePrices: function calculatePrices(data) {
-            return Math.round(data.reduce(function (a, b) {
+            return Number(data.reduce(function (a, b) {
                 return a + b;
-            }, 0)).toFixed(1);
+            }, 0).toFixed(2));
         }
     }
 

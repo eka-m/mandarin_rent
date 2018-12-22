@@ -174,7 +174,7 @@
             totalProfit() {
                 if(this.data) {
                     return this.data.finished.map((item, index) => {
-                        return Number(Math.round(item + this.data.notpaid[index]).toFixed(2));
+                        return Number((item + this.data.notpaid[index]).toFixed(2));
                     });
                 }
             }
@@ -327,7 +327,7 @@
                 }
             },
             calculatePrices(data) {
-                return Math.round(data.reduce((a, b) => a + b, 0)).toFixed(1);
+                return Number(data.reduce((a, b) => a + b, 0).toFixed(2));
             }
         }
 

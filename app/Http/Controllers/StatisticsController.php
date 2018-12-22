@@ -25,22 +25,30 @@ class StatisticsController extends BaseController
 
     public function profit($year, $manager = null)
     {
-        $deals = Deal::whereYear('closed', $year)->withoutStaff()->onlyClosed()->manager($manager)->get();
-        $deals = $deals->groupBy('status');
-
+        $dbResult = Deal::whereYear('closed', $year)->withoutStaff()->onlyClosed()->manager($manager)->get();
+        $deals = $this->makeStatistics($dbResult, 'closed', 'price');
         if ($manager && isset($deals['finished'])) {
-            $deals['manager'] = $this->calculateManagerProfit($deals['finished']);
+            $deals['manager'] = $this->calculateManagerProfit($dbResult);
         }
+        return response()->json($deals);
+    }
 
-        $deals->transform(function ($item, $key) {
+    public function generalProfit($year) {
+        $deals = Deal::whereYear('finish', $year)->withoutStaff()->status("finished")->orStatus('notpaid')->get();
+        $deals = $this->makeStatistics($deals,'finish', 'price');
+        return response()->json($deals);
+    }
+
+    public function makeStatistics($deals, $date, $sum) {
+        $deals = $deals->groupBy('status');
+        $deals->transform(function ($item, $key) use($date, $sum) {
             if ($key === "manager") {return $item;}
-            $result = $this->groupByMonth($item, 'closed');
-            $result = $this->calculateSums($result, 'price');
+            $result = $this->groupByMonth($item, $date);
+            $result = $this->calculateSums($result, $sum);
             $result = $this->createYearData($result)->values();
             return $result;
         });
-
-        return response()->json($deals);
+        return $deals;
     }
 
     public function calculateManagerProfit($deals)
@@ -84,7 +92,7 @@ class StatisticsController extends BaseController
                 });
                 if ($deals->sum('price') > 0) {
                     $result[] = [
-                        "title" => $deals->sum('price'),
+                        "title" => round($deals->sum('price'),2),
                         "start" => $date,
                         "className" => $k == "finished" ? 'm-fc-event--solid-info' : 'm-fc-event--solid-danger',
                         "deals" => $deals,
