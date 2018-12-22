@@ -35,7 +35,7 @@ exports = module.exports = __webpack_require__(75)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -138,12 +138,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "ProfitChart",
-    props: ['chartdata', 'options'],
+    props: ['options'],
     data: function data() {
         return {
             chart: null,
@@ -163,33 +162,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     watch: {
         "dates.selected": function datesSelected(value) {
-            var _this = this;
-
-            mApp.block(this.$refs.graphContainer, {});
-            axios.get("/async/statistics/year/" + value).then(function (r) {
-                if (r.status === 200) {
-                    _this.data = r.data;
-                    _this.chart.destroy();
-                    _this.renderChart();
-                    mApp.unblock(_this.$refs.graphContainer, {});
-                }
-            });
+            this.getData(value);
         }
     },
     created: function created() {
-        this.data = JSON.parse(this.chartdata);
+        this.getData(2018);
     },
     mounted: function mounted() {
-        this.renderChart();
         $(this.$refs.yearSelect).selectpicker({ language: "ru" });
     },
 
     computed: {
         totalProfit: function totalProfit() {
-            var self = this;
-            return this.data.notPaidProfit.map(function (item, index) {
-                return Number(Math.round(item + self.data.paidProfit[index]).toFixed(2));
-            });
+            var _this = this;
+
+            if (this.data) {
+                return this.data.finished.map(function (item, index) {
+                    return Number((item + _this.data.notpaid[index]).toFixed(2));
+                });
+            }
         }
     },
     methods: {
@@ -212,13 +203,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         backgroundColor: 'RGB(255, 175, 31,0.5)',
                         pointHoverRadius: 10,
                         fill: false,
-                        data: self.data.paidProfit
+                        data: self.data.finished
                     }, {
                         label: "Не оплаченные",
                         borderColor: '#FE0E55',
                         pointHoverRadius: 10,
                         fill: false,
-                        data: self.data.notPaidProfit
+                        data: self.data.notpaid
                     }]
                 },
                 options: {
@@ -236,8 +227,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             afterFooter: function afterFooter(tooltipItems, data) {
                                 self.month = tooltipItems[0].xLabel;
                                 self.prices.total = self.totalProfit[tooltipItems[0].index];
-                                self.prices.paid = self.data.paidProfit[tooltipItems[0].index];
-                                self.prices.notpaid = self.data.notPaidProfit[tooltipItems[0].index];
+                                self.prices.paid = self.data.finished[tooltipItems[0].index];
+                                self.prices.notpaid = self.data.notpaid[tooltipItems[0].index];
                             }
                         },
                         custom: function custom(tooltipModel) {
@@ -300,10 +291,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             });
         },
+        getData: function getData(year) {
+            var _this2 = this;
+
+            mApp.block(this.$refs.graphContainer, {});
+            axios.get(route('async.statistics.year', year)).then(function (r) {
+                if (r.status === 200) {
+                    _this2.data = r.data;
+                    if (_this2.chart) {
+                        _this2.chart.destroy();
+                        _this2.renderChart();
+                    } else {
+                        _this2.renderChart();
+                    }
+                    mApp.unblock(_this2.$refs.graphContainer, {});
+                }
+            });
+        },
         calculatePrices: function calculatePrices(data) {
             return Math.round(data.reduce(function (a, b) {
                 return a + b;
-            }, 0)).toFixed(1);
+            }, 0)).toFixed(2);
         }
     }
 
@@ -391,155 +399,181 @@ var render = function() {
           "div",
           { staticClass: "m-widget21", staticStyle: { "min-height": "420px" } },
           [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col" }, [
-                _c("div", { staticClass: "m-widget21__item m--pull-left" }, [
-                  _vm._m(1),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "m-widget21__info" }, [
-                    _c("span", { staticClass: "m-widget21__title" }, [
-                      _vm._v(
-                        "\n                                Общая\n                            "
-                      )
-                    ]),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "m-widget21__sub" }, [
-                      _vm._v("Общая сумма.")
-                    ]),
-                    _vm._v(" "),
-                    _vm.month !== null
-                      ? _c(
-                          "div",
-                          {
-                            staticClass: "m-widget21__number m--font-warning h4"
-                          },
-                          [_vm._v(_vm._s(_vm.month))]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
+            _vm.data
+              ? _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col" }, [
                     _c(
                       "div",
-                      { staticClass: "m-widget21__number m--font-warning h1" },
+                      { staticClass: "m-widget21__item m--pull-left" },
                       [
-                        _vm._v(
-                          _vm._s(
-                            _vm.prices.total !== null
-                              ? _vm.prices.total
-                              : _vm.calculatePrices(_vm.totalProfit)
-                          ) + " "
-                        ),
-                        _c("span", {
-                          domProps: {
-                            innerHTML: _vm._s(
-                              _vm.$store.currencies.list[0].code
+                        _vm._m(1),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "m-widget21__info" }, [
+                          _c("span", { staticClass: "m-widget21__title" }, [
+                            _vm._v(
+                              "\n                                Общая\n                            "
                             )
-                          }
-                        })
+                          ]),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "m-widget21__sub" }, [
+                            _vm._v("Общая сумма.")
+                          ]),
+                          _vm._v(" "),
+                          _vm.month !== null
+                            ? _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "m-widget21__number m--font-warning h4"
+                                },
+                                [_vm._v(_vm._s(_vm.month))]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "m-widget21__number m--font-warning h1"
+                            },
+                            [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.prices.total !== null
+                                    ? _vm.prices.total
+                                    : _vm.calculatePrices(_vm.totalProfit)
+                                ) + " "
+                              ),
+                              _c("span", {
+                                domProps: {
+                                  innerHTML: _vm._s(
+                                    _vm.$store.currencies.list[0].code
+                                  )
+                                }
+                              })
+                            ]
+                          )
+                        ])
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col" }, [
+                    _c(
+                      "div",
+                      { staticClass: "m-widget21__item m--pull-left" },
+                      [
+                        _vm._m(2),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "m-widget21__info" }, [
+                          _c("span", { staticClass: "m-widget21__title" }, [
+                            _vm._v(
+                              "\n                                Оплаченные\n                            "
+                            )
+                          ]),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "m-widget21__sub" }, [
+                            _vm._v("Сумма оплаченных сделок.")
+                          ]),
+                          _vm._v(" "),
+                          _vm.month !== null
+                            ? _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "m-widget21__number m--font-accent h4"
+                                },
+                                [_vm._v(_vm._s(_vm.month))]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "m-widget21__number m--font-accent h1"
+                            },
+                            [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.prices.paid !== null
+                                    ? _vm.prices.paid
+                                    : _vm.calculatePrices(_vm.data.finished)
+                                ) + " "
+                              ),
+                              _c("span", {
+                                domProps: {
+                                  innerHTML: _vm._s(
+                                    _vm.$store.currencies.list[0].code
+                                  )
+                                }
+                              })
+                            ]
+                          )
+                        ])
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col m--align-left" }, [
+                    _c(
+                      "div",
+                      { staticClass: "m-widget21__item m--pull-right" },
+                      [
+                        _vm._m(3),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "m-widget21__info" }, [
+                          _c("span", { staticClass: "m-widget21__title" }, [
+                            _vm._v("Неоплаченные")
+                          ]),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "m-widget21__sub" }, [
+                            _vm._v("Сумма неоплаченных сделок.")
+                          ]),
+                          _vm._v(" "),
+                          _vm.month
+                            ? _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "m-widget21__number m--font-danger h4"
+                                },
+                                [_vm._v(_vm._s(_vm.month))]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "m-widget21__number m--font-danger h1"
+                            },
+                            [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.prices.notpaid !== null
+                                    ? _vm.prices.notpaid
+                                    : _vm.calculatePrices(_vm.data.notpaid)
+                                ) + " "
+                              ),
+                              _c("span", {
+                                domProps: {
+                                  innerHTML: _vm._s(
+                                    _vm.$store.currencies.list[0].code
+                                  )
+                                }
+                              })
+                            ]
+                          )
+                        ])
                       ]
                     )
                   ])
                 ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col" }, [
-                _c("div", { staticClass: "m-widget21__item m--pull-left" }, [
-                  _vm._m(2),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "m-widget21__info" }, [
-                    _c("span", { staticClass: "m-widget21__title" }, [
-                      _vm._v(
-                        "\n                                Оплаченные\n                            "
-                      )
-                    ]),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "m-widget21__sub" }, [
-                      _vm._v("Сумма оплаченных сделок.")
-                    ]),
-                    _vm._v(" "),
-                    _vm.month !== null
-                      ? _c(
-                          "div",
-                          {
-                            staticClass: "m-widget21__number m--font-accent h4"
-                          },
-                          [_vm._v(_vm._s(_vm.month))]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "m-widget21__number m--font-accent h1" },
-                      [
-                        _vm._v(
-                          _vm._s(
-                            _vm.prices.paid !== null
-                              ? _vm.prices.paid
-                              : _vm.calculatePrices(_vm.data.paidProfit)
-                          ) + " "
-                        ),
-                        _c("span", {
-                          domProps: {
-                            innerHTML: _vm._s(
-                              _vm.$store.currencies.list[0].code
-                            )
-                          }
-                        })
-                      ]
-                    )
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col m--align-left" }, [
-                _c("div", { staticClass: "m-widget21__item m--pull-right" }, [
-                  _vm._m(3),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "m-widget21__info" }, [
-                    _c("span", { staticClass: "m-widget21__title" }, [
-                      _vm._v("Неоплаченные")
-                    ]),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "m-widget21__sub" }, [
-                      _vm._v("Сумма неоплаченных сделок.")
-                    ]),
-                    _vm._v(" "),
-                    _vm.month
-                      ? _c(
-                          "div",
-                          {
-                            staticClass: "m-widget21__number m--font-danger h4"
-                          },
-                          [_vm._v(_vm._s(_vm.month))]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "m-widget21__number m--font-danger h1" },
-                      [
-                        _vm._v(
-                          _vm._s(
-                            _vm.prices.notpaid !== null
-                              ? _vm.prices.notpaid
-                              : _vm.calculatePrices(_vm.data.notPaidProfit)
-                          ) + " "
-                        ),
-                        _c("span", {
-                          domProps: {
-                            innerHTML: _vm._s(
-                              _vm.$store.currencies.list[0].code
-                            )
-                          }
-                        })
-                      ]
-                    )
-                  ])
-                ])
-              ])
-            ]),
+              : _vm._e(),
             _vm._v(" "),
             _c(
               "div",
@@ -861,10 +895,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     watch: {
         "dates.selected": function datesSelected(value) {
-            this.getData();
+            // this.getData();
         },
         manager: function manager() {
-            this.getData();
+            // this.getData();
         }
     },
     created: function created() {
@@ -895,13 +929,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         backgroundColor: 'RGB(255, 175, 31,0.5)',
                         pointHoverRadius: 10,
                         fill: false,
-                        data: self.data.paidProfit
+                        data: self.data.finished
                     }, {
                         label: "Не оплаченные",
                         borderColor: '#FE0E55',
                         pointHoverRadius: 10,
                         fill: false,
-                        data: self.data.notPaidProfit
+                        data: self.data.notpaid
                     }, {
                         label: "Прибыль " + self.selectedManager.name,
                         borderColor: '#00B24F',

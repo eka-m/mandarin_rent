@@ -170,10 +170,10 @@
         },
         watch: {
             "dates.selected"(value) {
-                this.getData();
+                // this.getData();
             },
             manager() {
-                this.getData();
+                // this.getData();
             }
         },
         created() {
@@ -205,14 +205,14 @@
                                 backgroundColor: 'RGB(255, 175, 31,0.5)',
                                 pointHoverRadius: 10,
                                 fill: false,
-                                data: self.data.paidProfit,
+                                data: self.data.finished,
                             },
                             {
                                 label: "Не оплаченные",
                                 borderColor: '#FE0E55',
                                 pointHoverRadius: 10,
                                 fill: false,
-                                data: self.data.notPaidProfit,
+                                data: self.data.notpaid,
                             },
                             {
                                 label: "Прибыль " + self.selectedManager.name,

@@ -11,33 +11,32 @@ class StatisticsController extends BaseController
 {
     public function show()
     {
-        $deals = [
-            'today' => $this->todayDeals(),
-            'month' => $this->monthDeals(),
-            'year' => $this->getYearData(Carbon::now()->year)
-        ];
         $managers = User::role('manager')->get()->toJson();
         return view('statistics.statistics', compact('deals', 'managers'));
     }
 
-    public function getYearData($year, $manager = null)
+    public function profit($year, $maanger = null)
     {
+        $deals = Deal::whereYear('closed', $year)->withoutStaff()->onlyClosed()->manager($maanger)->get();
+        $deals = $deals->groupBy('status');
 
-        $data = [
-            "paidProfit" => $this->profit($year, $manager),
-            "notPaidProfit" => $this->notPaidProfit($year, $manager),
-            "managerProfit" => $this->getManagerProfit($year, $manager),
-        ];
+        $deals->transform(function ($item) {
+            $result = $this->groupByMonth($item, 'closed');
+            $result = $this->calculateSums($result, 'price');
+            $result = $this->createYearData($result)->values();
+            return $result;
+        });
 
-        return \Request::ajax() ? response()->json($data) : $data;
+        return response()->json($deals);
     }
 
     public function getManagerProfit($year, $manager)
     {
         $deals = Deal::withoutStaff()
             ->whereYear("closed", $year)
-            ->status("finished")
             ->manager($manager)
+            ->onlyClosed()
+            ->onlyPaid()
             ->get();
 
         $deals->map(function ($item) {
@@ -48,23 +47,6 @@ class StatisticsController extends BaseController
 
         $deals = $this->groupByMonth($deals, "closed");
         $deals = $this->calculateSums($deals, "manager_profit");
-        return $this->createYearData($deals)->values();
-    }
-
-
-    public function profit($year, $manager = null)
-    {
-        $deals = Deal::withoutStaff()->whereYear("closed", $year)->status("finished")->manager($manager)->get();
-        $deals = $this->groupByMonth($deals, "closed");
-        $deals = $this->calculateSums($deals, "price");
-        return $this->createYearData($deals)->values();
-    }
-
-    public function notPaidProfit($year, $manager = null)
-    {
-        $deals = Deal::withoutStaff()->whereYear("finish", $year)->status("notpaid")->manager($manager)->get();
-        $deals = $this->groupByMonth($deals, "finish");
-        $deals = $this->calculateSums($deals, "price");
         return $this->createYearData($deals)->values();
     }
 
@@ -103,9 +85,9 @@ class StatisticsController extends BaseController
             });
             foreach ($group as $date => $deals) {
                 $deals->map(function ($item) {
-                   return $item->price =  $item->client->status == 'staff' ? 0 : $item->price;
+                    return $item->price = $item->client->status == 'staff' ? 0 : $item->price;
                 });
-                if($deals->sum('price') > 0) {
+                if ($deals->sum('price') > 0) {
                     $result[] = [
                         "title" => $deals->sum('price'),
                         "start" => $date,

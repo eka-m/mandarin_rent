@@ -88,6 +88,16 @@ class Deal extends Base
         return $query->whereNull('closed');
     }
 
+    public function scopeOnlyPaid($query)
+    {
+        return $query->where('status', 'finished');
+    }
+
+    public function scopeOnlyNotPaid($query)
+    {
+        return $query->where('status', 'notpaid');
+    }
+
     public function scopeStatus($query, $status)
     {
         return $query->where('status', $status);

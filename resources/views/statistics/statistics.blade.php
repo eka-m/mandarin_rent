@@ -26,13 +26,13 @@
         <div class="m-portlet__head-tools">
           <ul class="nav nav-tabs m-tabs m-tabs-line tabs m-tabs-line--right m-tabs-line--2x m-tabs-line--danger" role="tablist">
             <li class="nav-item m-tabs__item">
-              <a class="nav-link m-tabs__link text-white" data-toggle="tab" href="#graph-tab" role="tab"
+              <a class="nav-link m-tabs__link text-white active show" data-toggle="tab" href="#graph-tab" role="tab"
                  aria-selected="false">
                 График
               </a>
             </li>
             <li class="nav-item m-tabs__item">
-              <a class="nav-link m-tabs__link text-white active show" data-toggle="tab" href="#calendar-tab" role="tab" aria-selected="false">
+              <a class="nav-link m-tabs__link text-white" data-toggle="tab" href="#calendar-tab" role="tab" aria-selected="false">
                 Календарь сделок
               </a>
             </li>
@@ -46,10 +46,10 @@
       </div>
       <div class="m-portlet__body">
         <div class="tab-content">
-          <div class="tab-pane" id="graph-tab">
-            <profit chartdata="{{json_encode($deals['year'])}}"></profit>
+          <div class="tab-pane active show" id="graph-tab">
+            <profit></profit>
           </div>
-          <div class="tab-pane  active show" id="calendar-tab">
+          <div class="tab-pane " id="calendar-tab">
             <profit-calendar></profit-calendar>
           </div>
           <div class="tab-pane" id="managers-tab">

@@ -19,7 +19,7 @@
         </div>
         <div ref="graphContainer" class="m-portlet__body">
             <div class="m-widget21" style="min-height: 420px">
-                <div class="row">
+                <div class="row" v-if="data">
                     <div class="col">
                         <div class="m-widget21__item m--pull-left">
                             <span class="m-widget21__icon">
@@ -56,7 +56,7 @@
                                 <span class="m-widget21__sub">Сумма оплаченных сделок.</span>
                                 <div class="m-widget21__number m--font-accent h4" v-if="month !== null">{{month}}</div>
                                 <div class="m-widget21__number m--font-accent h1">{{prices.paid !== null ? prices.paid :
-                                    calculatePrices(data.paidProfit)}} <span v-html="$store.currencies.list[0].code"></span>
+                                    calculatePrices(data.finished)}} <span v-html="$store.currencies.list[0].code"></span>
                                 </div>
                             </div>
                         </div>
@@ -75,13 +75,12 @@
                                 <div class="m-widget21__number m--font-danger h4" v-if="month">{{month}}</div>
                                 <div class="m-widget21__number m--font-danger h1">{{prices.notpaid !== null ?
                                     prices.notpaid :
-                                    calculatePrices(data.notPaidProfit)}} <span v-html="$store.currencies.list[0].code"></span>
+                                    calculatePrices(data.notpaid)}} <span v-html="$store.currencies.list[0].code"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <div class="m-widget21__chart m-portlet-fit--sides" style="height:310px;">
                     <canvas ref="profitChart"></canvas>
                 </div>
@@ -94,7 +93,7 @@
 
     export default {
         name: "ProfitChart",
-        props: ['chartdata', 'options'],
+        props: ['options'],
         data: () => ({
             chart: null,
             data: null,
@@ -112,30 +111,22 @@
         }),
         watch: {
           "dates.selected"(value) {
-              mApp.block(this.$refs.graphContainer, {});
-              axios.get("/async/statistics/year/" + value).then(r => {
-                 if (r.status === 200) {
-                     this.data = r.data;
-                     this.chart.destroy();
-                     this.renderChart();
-                     mApp.unblock(this.$refs.graphContainer, {});
-                 }
-              });
+              this.getData(value);
           }
         },
         created() {
-            this.data = JSON.parse(this.chartdata);
+          this.getData(2018);
         },
         mounted() {
-            this.renderChart();
             $(this.$refs.yearSelect).selectpicker({language:"ru"})
         },
         computed: {
             totalProfit() {
-                const self = this;
-                return this.data.notPaidProfit.map((item, index) => {
-                    return Number(Math.round(item + self.data.paidProfit[index]).toFixed(2));
-                });
+                if(this.data) {
+                    return this.data.finished.map((item, index) => {
+                        return Number((item + this.data.notpaid[index]).toFixed(2));
+                    });
+                }
             }
         },
         methods: {
@@ -160,14 +151,14 @@
                                 backgroundColor: 'RGB(255, 175, 31,0.5)',
                                 pointHoverRadius: 10,
                                 fill: false,
-                                data: self.data.paidProfit,
+                                data: self.data.finished,
                             },
                             {
                                 label: "Не оплаченные",
                                 borderColor: '#FE0E55',
                                 pointHoverRadius: 10,
                                 fill: false,
-                                data: self.data.notPaidProfit,
+                                data: self.data.notpaid,
                             }
                         ]
                     },
@@ -186,8 +177,8 @@
                                 afterFooter(tooltipItems, data) {
                                     self.month = tooltipItems[0].xLabel;
                                     self.prices.total = self.totalProfit[tooltipItems[0].index];
-                                    self.prices.paid = self.data.paidProfit[tooltipItems[0].index];
-                                    self.prices.notpaid = self.data.notPaidProfit[tooltipItems[0].index];
+                                    self.prices.paid = self.data.finished[tooltipItems[0].index];
+                                    self.prices.notpaid = self.data.notpaid[tooltipItems[0].index];
                                 },
                             },
                             custom: function (tooltipModel) {
@@ -250,8 +241,23 @@
                     }
                 });
             },
+            getData(year) {
+                mApp.block(this.$refs.graphContainer, {})
+                axios.get(route('async.statistics.year', year)).then(r => {
+                    if (r.status === 200) {
+                        this.data = r.data;
+                        if(this.chart) {
+                            this.chart.destroy();
+                            this.renderChart();
+                        } else  {
+                            this.renderChart();
+                        }
+                        mApp.unblock(this.$refs.graphContainer, {});
+                    }
+                });
+            },
             calculatePrices(data) {
-                return Math.round(data.reduce((a, b) => a + b, 0)).toFixed(1);
+                return Math.round(data.reduce((a, b) => a + b, 0)).toFixed(2);
             }
         }
 
