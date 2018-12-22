@@ -54,7 +54,7 @@
                     eventLimit: 2, // allow "more" link when too many events
                     navLinks: true,
                     events: this.getCalendarData,
-                    eventClick: this.initPopover,
+                    eventClick: this.showDeals,
                     // viewRender:this.viewRender,
                     eventDataTransform: this.eventTransform,
                     eventRender: this.eventRender
@@ -77,14 +77,17 @@
                     cursor: "pointer"
                 });
                 if (element.hasClass('fc-day-grid-event')) {
-                    // this.initPopover(event,element);
                 } else if (element.hasClass('fc-time-grid-event')) {
-                    element.find('.fc-title').append('<div class="fc-description">' + event.description + '</div>');
                 } else if (element.find('.fc-list-item-title').length !== 0) {
-                    element.find('.fc-list-item-title').append('<div class="fc-description">' + event.dateDealsWithClient + '</div>');
+                    element.find('.fc-list-item-title')
+		                    .html(`<span style="font-size: 36px;" class="m--font-boldest text-${event.deals[0].status === 'finished' ? 'info' : 'danger'}">${event.title} ${this.$store.currencies.list[0].code}`)
+		                    .css({
+                        cursor: "pointer"
+                    });
+                    element.find('.fc-list-item-title').append('<div class="fc-description">' + this.makeDealTemplate(event)+ '</div>');
                 }
             },
-            initPopover(event, element) {
+            showDeals(event, element) {
                 const content = this.makeDealTemplate(event);
                 this.$store.offcanvas.show(content)
             },
@@ -93,7 +96,7 @@
                     notpaid: "Неоплаченные",
                     finished: "Оплаченные"
                 };
-                let result = `<h5>${dealtype[event.deals[0].status]} cделки ${moment(event.start).format('DD MMMM YYYY')}</h5><ul class="list-group">`;
+                let result = `<h6>${dealtype[event.deals[0].status]} cделки ${moment(event.start).format('DD MMMM YYYY')}</h6><ul class="list-group">`;
                 for (let deal of event.deals) {
                     const staff = `<span class="m-badge m-badge--wide m-badge--success m--font-boldest">STAFF</span>`;
                     const client  = `

@@ -27756,7 +27756,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 eventLimit: 2, // allow "more" link when too many events
                 navLinks: true,
                 events: this.getCalendarData,
-                eventClick: this.initPopover,
+                eventClick: this.showDeals,
                 // viewRender:this.viewRender,
                 eventDataTransform: this.eventTransform,
                 eventRender: this.eventRender
@@ -27779,15 +27779,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 fontSize: "16px",
                 cursor: "pointer"
             });
-            if (element.hasClass('fc-day-grid-event')) {
-                // this.initPopover(event,element);
-            } else if (element.hasClass('fc-time-grid-event')) {
-                element.find('.fc-title').append('<div class="fc-description">' + event.description + '</div>');
-            } else if (element.find('.fc-list-item-title').length !== 0) {
-                element.find('.fc-list-item-title').append('<div class="fc-description">' + event.dateDealsWithClient + '</div>');
+            if (element.hasClass('fc-day-grid-event')) {} else if (element.hasClass('fc-time-grid-event')) {} else if (element.find('.fc-list-item-title').length !== 0) {
+                element.find('.fc-list-item-title').html('<span style="font-size: 36px;" class="m--font-boldest text-' + (event.deals[0].status === 'finished' ? 'info' : 'danger') + '">' + event.title + ' ' + this.$store.currencies.list[0].code).css({
+                    cursor: "pointer"
+                });
+                element.find('.fc-list-item-title').append('<div class="fc-description">' + this.makeDealTemplate(event) + '</div>');
             }
         },
-        initPopover: function initPopover(event, element) {
+        showDeals: function showDeals(event, element) {
             var content = this.makeDealTemplate(event);
             this.$store.offcanvas.show(content);
         },
@@ -27796,7 +27795,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 notpaid: "Неоплаченные",
                 finished: "Оплаченные"
             };
-            var result = '<h5>' + dealtype[event.deals[0].status] + ' c\u0434\u0435\u043B\u043A\u0438 ' + moment(event.start).format('DD MMMM YYYY') + '</h5><ul class="list-group">';
+            var result = '<h6>' + dealtype[event.deals[0].status] + ' c\u0434\u0435\u043B\u043A\u0438 ' + moment(event.start).format('DD MMMM YYYY') + '</h6><ul class="list-group">';
             var _iteratorNormalCompletion = true;
             var _didIteratorError = false;
             var _iteratorError = undefined;
