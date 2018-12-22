@@ -15,12 +15,17 @@ class StatisticsController extends BaseController
         return view('statistics.statistics', compact('deals', 'managers'));
     }
 
-    public function profit($year, $maanger = null)
+    public function profit($year, $manager = null)
     {
-        $deals = Deal::whereYear('closed', $year)->withoutStaff()->onlyClosed()->manager($maanger)->get();
+        $deals = Deal::whereYear('closed', $year)->withoutStaff()->onlyClosed()->manager($manager)->get();
         $deals = $deals->groupBy('status');
 
-        $deals->transform(function ($item) {
+        if ($manager && isset($deals['finished'])) {
+            $deals['manager'] = $this->calculateManagerProfit($deals['finished']);
+        }
+
+        $deals->transform(function ($item, $key) {
+            if ($key === "manager") {return $item;}
             $result = $this->groupByMonth($item, 'closed');
             $result = $this->calculateSums($result, 'price');
             $result = $this->createYearData($result)->values();
@@ -30,38 +35,20 @@ class StatisticsController extends BaseController
         return response()->json($deals);
     }
 
-    public function getManagerProfit($year, $manager)
+    public function calculateManagerProfit($deals)
     {
-        $deals = Deal::withoutStaff()
-            ->whereYear("closed", $year)
-            ->manager($manager)
-            ->onlyClosed()
-            ->onlyPaid()
-            ->get();
-
         $deals->map(function ($item) {
             if ($item->manager_profit_type === "percent") {
                 $item->manager_profit = round($item->price * $item->manager_profit / 100, 1);
             }
         });
 
-        $deals = $this->groupByMonth($deals, "closed");
-        $deals = $this->calculateSums($deals, "manager_profit");
-        return $this->createYearData($deals)->values();
+        $deals = $this->groupByMonth($deals, 'closed');
+        $deals = $this->calculateSums($deals, 'manager_profit');
+        $deals = $this->createYearData($deals)->values();
+        return $deals;
     }
 
-    public function todayDeals()
-    {
-        return Deal::withoutStaff()->status("finished")->whereDate('closed', Carbon::today())->get();
-    }
-
-    public function monthDeals()
-    {
-        return Deal::withoutStaff()
-            ->whereYear('closed', Carbon::now()->year)
-            ->whereMonth('closed', Carbon::now()->month)
-            ->status("finished")->get();
-    }
 
     public function calendar(Request $request)
     {

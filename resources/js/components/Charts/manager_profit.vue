@@ -11,8 +11,10 @@
             <div class="m-portlet__head-tools">
                 <div class="form-group">
                     <button @click="showdeals = !showdeals"
-                            :class="`btn m-btn m-btn--icon m-btn m-btn--custom mr-2 btn-${showdeals ? 'accent' : 'brand'}`">
-                        <i class="fa flaticon-share"></i> Сделки</button>
+                            :class="`btn m-btn m-btn--icon m-btn m-btn--custom mr-2 btn-${showdeals ? 'success' : 'brand'}`">
+                        <i :class="`fa flaticon-${showdeals ? 'user' : 'share'}`"></i>
+		                   {{showdeals ? 'Менеджер' : 'Сделки'}}
+                    </button>
                 </div>
                 <div class="form-group mr-3">
                     <select class="manager-profit-select" ref="managerSelect" v-model="manager"
@@ -77,7 +79,7 @@
                                     <span class="m-widget21__sub">Сумма оплаченных сделок.</span>
                                     <div class="m-widget21__number m--font-accent h6">{{month ? month : 'За год'}}</div>
                                     <div class="m-widget21__number m--font-accent h1">{{prices.paid !== null ? prices.paid :
-                                        calculatePrices(data.paidProfit)}} <span
+                                        calculatePrices(data.finished)}} <span
                                                 v-html="$store.currencies.list[0].code"></span>
                                     </div>
                                 </div>
@@ -97,7 +99,7 @@
                                     <div class="m-widget21__number m--font-danger h6">{{month ? month : 'За год'}}</div>
                                     <div class="m-widget21__number m--font-danger h1">{{prices.notpaid !== null ?
                                         prices.notpaid :
-                                        calculatePrices(data.notPaidProfit)}} <span
+                                        calculatePrices(data.notpaid)}} <span
                                                 v-html="$store.currencies.list[0].code"></span>
                                     </div>
                                 </div>
@@ -117,7 +119,7 @@
                                     <span class="m-widget21__title">{{selectedManager.name}}</span><br>
                                     <div class="m-widget21__number m--font-success h4">{{month ? month : 'За год'}}</div>
                                     <div class="m-widget21__number m--font-success h1 display-3">
-                                        {{prices.manager !== null ? prices.manager : calculatePrices(data.managerProfit)}}
+                                        {{prices.manager !== null ? prices.manager : calculatePrices(data.manager)}}
                                         <span v-html="$store.currencies.list[0].code"></span>
                                     </div>
                                 </div>
@@ -136,7 +138,7 @@
 <script>
 
     export default {
-        name: "ManagerProfit",
+        name: "manager",
         props: ['propManagers', 'options'],
         data: () => ({
             chart: null,
@@ -157,6 +159,14 @@
             manager: null,
             showdeals:false
         }),
+
+        created() {
+            this.managers = JSON.parse(this.propManagers);
+            this.manager = this.managers[0].id
+        },
+        mounted() {
+            $('.manager-profit-select').selectpicker({language: 'ru'})
+        },
         computed: {
             selectedManager() {
                 return this.managers.filter(i => i.id === this.manager)[0];
@@ -170,19 +180,12 @@
             }
         },
         watch: {
-            "dates.selected"(value) {
+            "dates.selected"() {
                 this.getData();
             },
             manager() {
                 this.getData();
             }
-        },
-        created() {
-            this.managers = JSON.parse(this.propManagers);
-            this.manager = this.managers[0].id
-        },
-        mounted() {
-            $('.manager-profit-select').selectpicker({language: 'ru'})
         },
         methods: {
             renderChart() {
@@ -220,7 +223,7 @@
                                 borderColor: '#00B24F',
                                 pointHoverRadius: 10,
                                 fill: false,
-                                data: self.data.managerProfit,
+                                data: self.data.manager,
                             }
                         ]
                     },
@@ -239,9 +242,9 @@
                                 afterFooter(tooltipItems, data) {
                                     self.month = tooltipItems[0].xLabel;
                                     self.prices.total = self.totalProfit[tooltipItems[0].index];
-                                    self.prices.paid = self.data.paidProfit[tooltipItems[0].index];
-                                    self.prices.notpaid = self.data.notPaidProfit[tooltipItems[0].index];
-                                    self.prices.manager = self.data.managerProfit[tooltipItems[0].index];
+                                    self.prices.paid = self.data.finished[tooltipItems[0].index];
+                                    self.prices.notpaid = self.data.notpaid[tooltipItems[0].index];
+                                    self.prices.manager = self.data.manager[tooltipItems[0].index];
                                 },
                             },
                             custom: function (tooltipModel) {
@@ -307,7 +310,7 @@
             },
             getData() {
                 mApp.block(this.$refs.graphContainer, {});
-                axios.get("/async/statistics/year/" + this.dates.selected + '/' + this.manager).then(r => {
+                axios.get(route('async.statistics.year',this.dates.selected) + '/' + this.manager).then(r => {
                     if (r.status === 200) {
                         this.data = r.data;
                         this.reloadChart();

@@ -708,7 +708,7 @@ exports = module.exports = __webpack_require__(75)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -855,10 +855,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: "ManagerProfit",
+    name: "manager",
     props: ['propManagers', 'options'],
     data: function data() {
         return {
@@ -881,6 +883,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             showdeals: false
         };
     },
+
+    created: function created() {
+        this.managers = JSON.parse(this.propManagers);
+        this.manager = this.managers[0].id;
+    },
+    mounted: function mounted() {
+        $('.manager-profit-select').selectpicker({ language: 'ru' });
+    },
+
     computed: {
         selectedManager: function selectedManager() {
             var _this = this;
@@ -900,21 +911,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     watch: {
-        "dates.selected": function datesSelected(value) {
+        "dates.selected": function datesSelected() {
             this.getData();
         },
         manager: function manager() {
             this.getData();
         }
     },
-    created: function created() {
-        this.managers = JSON.parse(this.propManagers);
-        this.manager = this.managers[0].id;
-    },
-    mounted: function mounted() {
-        $('.manager-profit-select').selectpicker({ language: 'ru' });
-    },
-
     methods: {
         renderChart: function renderChart() {
             var self = this;
@@ -947,7 +950,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         borderColor: '#00B24F',
                         pointHoverRadius: 10,
                         fill: false,
-                        data: self.data.managerProfit
+                        data: self.data.manager
                     }]
                 },
                 options: {
@@ -965,9 +968,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             afterFooter: function afterFooter(tooltipItems, data) {
                                 self.month = tooltipItems[0].xLabel;
                                 self.prices.total = self.totalProfit[tooltipItems[0].index];
-                                self.prices.paid = self.data.paidProfit[tooltipItems[0].index];
-                                self.prices.notpaid = self.data.notPaidProfit[tooltipItems[0].index];
-                                self.prices.manager = self.data.managerProfit[tooltipItems[0].index];
+                                self.prices.paid = self.data.finished[tooltipItems[0].index];
+                                self.prices.notpaid = self.data.notpaid[tooltipItems[0].index];
+                                self.prices.manager = self.data.manager[tooltipItems[0].index];
                             }
                         },
                         custom: function custom(tooltipModel) {
@@ -1035,7 +1038,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this3 = this;
 
             mApp.block(this.$refs.graphContainer, {});
-            axios.get("/async/statistics/year/" + this.dates.selected + '/' + this.manager).then(function (r) {
+            axios.get(route('async.statistics.year', this.dates.selected) + '/' + this.manager).then(function (r) {
                 if (r.status === 200) {
                     _this3.data = r.data;
                     _this3.reloadChart();
@@ -1081,9 +1084,9 @@ var render = function() {
           _c("div", { staticClass: "m-portlet__head-title" }, [
             _c("h3", { staticClass: "m-portlet__head-text" }, [
               _vm._v(
-                "\n                    Статистика менеджера: " +
+                "\n                        Статистика менеджера: " +
                   _vm._s(_vm.selectedManager.name) +
-                  "\n                "
+                  "\n                    "
               )
             ])
           ])
@@ -1096,14 +1099,23 @@ var render = function() {
               {
                 class:
                   "btn m-btn m-btn--icon m-btn m-btn--custom mr-2 btn-" +
-                  (_vm.showdeals ? "accent" : "brand"),
+                  (_vm.showdeals ? "success" : "brand"),
                 on: {
                   click: function($event) {
                     _vm.showdeals = !_vm.showdeals
                   }
                 }
               },
-              [_c("i", { staticClass: "fa flaticon-share" }), _vm._v(" Сделки")]
+              [
+                _c("i", {
+                  class: "fa flaticon-" + (_vm.showdeals ? "user" : "share")
+                }),
+                _vm._v(
+                  "\n\t\t                   " +
+                    _vm._s(_vm.showdeals ? "Менеджер" : "Сделки") +
+                    "\n                    "
+                )
+              ]
             )
           ]),
           _vm._v(" "),
@@ -1159,7 +1171,7 @@ var render = function() {
                   [
                     _vm._v(
                       _vm._s(manager.name) +
-                        " ${manager.percent} %\n                    "
+                        " ${manager.percent} %\n                        "
                     )
                   ]
                 )
@@ -1217,7 +1229,7 @@ var render = function() {
                     [
                       _vm._v(
                         _vm._s(Number(_vm.dates.start) + Number(year)) +
-                          "\n                    "
+                          "\n                        "
                       )
                     ]
                   )
@@ -1271,7 +1283,7 @@ var render = function() {
                             _c("div", { staticClass: "m-widget21__info" }, [
                               _c("span", { staticClass: "m-widget21__title" }, [
                                 _vm._v(
-                                  "\n                                Общая\n                            "
+                                  "\n                                    Общая\n                                "
                                 )
                               ]),
                               _c("br"),
@@ -1346,7 +1358,7 @@ var render = function() {
                             _c("div", { staticClass: "m-widget21__info" }, [
                               _c("span", { staticClass: "m-widget21__title" }, [
                                 _vm._v(
-                                  "\n                                Оплаченные\n                            "
+                                  "\n                                    Оплаченные\n                                "
                                 )
                               ]),
                               _c("br"),
@@ -1379,9 +1391,7 @@ var render = function() {
                                     _vm._s(
                                       _vm.prices.paid !== null
                                         ? _vm.prices.paid
-                                        : _vm.calculatePrices(
-                                            _vm.data.paidProfit
-                                          )
+                                        : _vm.calculatePrices(_vm.data.finished)
                                     ) + " "
                                   ),
                                   _c("span", {
@@ -1454,9 +1464,7 @@ var render = function() {
                                     _vm._s(
                                       _vm.prices.notpaid !== null
                                         ? _vm.prices.notpaid
-                                        : _vm.calculatePrices(
-                                            _vm.data.notPaidProfit
-                                          )
+                                        : _vm.calculatePrices(_vm.data.notpaid)
                                     ) + " "
                                   ),
                                   _c("span", {
@@ -1519,15 +1527,13 @@ var render = function() {
                               },
                               [
                                 _vm._v(
-                                  "\n                                    " +
+                                  "\n                                        " +
                                     _vm._s(
                                       _vm.prices.manager !== null
                                         ? _vm.prices.manager
-                                        : _vm.calculatePrices(
-                                            _vm.data.managerProfit
-                                          )
+                                        : _vm.calculatePrices(_vm.data.manager)
                                     ) +
-                                    "\n                                    "
+                                    "\n                                        "
                                 ),
                                 _c("span", {
                                   domProps: {
