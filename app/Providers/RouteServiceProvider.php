@@ -70,9 +70,10 @@ class RouteServiceProvider extends ServiceProvider
 
     protected function mapAsyncRoutes()
     {
-
+        //TODO Don`t forget setup auth
+//        'auth'
         Route::group([
-            'middleware' => ['web', 'auth'],
+            'middleware' => ['web'],
             'prefix' => 'async',
             'as' => 'async.',
             'namespace' => $this->namespace,

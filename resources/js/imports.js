@@ -18,4 +18,5 @@ Vue.component('dealParams', r => require.ensure([], () => r(require('./component
 Vue.component('deal-document', r => require.ensure([], () => r(require('./components/Deals/deal_document')), 'js/deal-document'));
 Vue.component('deal-manager-profit', r => require.ensure([], () => r(require('./components/Deals/deal_manager_profit')), 'js/deal-manager-profit'));
 Vue.component('editor', r => require.ensure([], () => r(require('./components/FormComponents/editor')), 'js/editor'));
-Vue.component('profitCalendar', r => require.ensure([], () => r(require('./components/Calendars/Profit/profit_calendar')), 'js/profit-calendar'));
+Vue.component('profitCalendar', r => require.ensure([], () => r(require('./components/Calendars/profit_calendar')), 'js/profit-calendar'));
+Vue.component('offcanvas', r => require.ensure([], () => r(require('./components/Offcanvas/offcanvas')), 'js/offcanvas'));

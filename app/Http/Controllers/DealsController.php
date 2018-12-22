@@ -27,7 +27,7 @@ class DealsController extends BaseController
 
     public function getDeals()
     {
-        $deal = Deal::with('client:id,first_name,last_name,father_name,status', 'items:inventory.id,name,model', 'manager:id,name');
+        $deal = Deal::with('client:id,first_name,last_name,father_name,status', 'items:inventory.id,name,model,inventory_code', 'manager:id,name');
         $clientStatuses = Client::getStatuses();
         $statuses = Deal::getStatuses();
         return datatables()->eloquent($deal)

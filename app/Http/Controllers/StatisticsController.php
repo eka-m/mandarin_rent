@@ -26,7 +26,7 @@ class StatisticsController extends BaseController
         $data = [
             "paidProfit" => $this->profit($year, $manager),
             "notPaidProfit" => $this->notPaidProfit($year, $manager),
-            "managerProfit" => $this->getManagerProfit($year,$manager),
+            "managerProfit" => $this->getManagerProfit($year, $manager),
         ];
 
         return \Request::ajax() ? response()->json($data) : $data;
@@ -42,7 +42,7 @@ class StatisticsController extends BaseController
 
         $deals->map(function ($item) {
             if ($item->manager_profit_type === "percent") {
-                $item->manager_profit = round($item->price * $item->manager_profit / 100,1);
+                $item->manager_profit = round($item->price * $item->manager_profit / 100, 1);
             }
         });
 
@@ -85,54 +85,39 @@ class StatisticsController extends BaseController
     {
         $start = Carbon::parse($request->input('start'));
         $finish = Carbon::parse($request->input('finish'));
-        $deals = Deal::with('client')
-            ->where(function ($query) use ($start, $finish) {
-            $query->whereDate('start', '>=', $start)->whereDate('finish', '<=', $finish);
-        })->where(function ($query) {
-            $query->status('finished')->orStatus('notpaid');
-        })->get();
 
-        return $this->createCalendarEvents($deals);
+        $deals = Deal::with('client')
+            ->onlyClosed()
+            ->whereBetween('closed', [$start, $finish])
+            ->get()
+            ->groupBy('status');
+
+
+        return response()->json($this->createCalendarEvents($deals));
     }
 
     public function createCalendarEvents($data)
     {
         $result = [];
         foreach ($data as $k => $group) {
-            foreach ($group as $key => $deals) {
-                $dateDeals = '';
-                $dateDealsWithClient = '';
-                foreach ($deals as $deal) {
-                    if ($deal->client['status'] == 'staff') {
-                        $deal->price = 0;
-                    }
-                    $price = $deal->price === 0 ? 'STAFF' : $deal->price . ' AZN';
-                    $status = $k === "closed" ? 'text-accent' : 'text-danger';
-                    $status = $price === "STAFF" ? 'text-success' : $status;
-                    $dealHTML = "<a class='d-block' href='/deals/$deal->id' target='_blank'>$deal->hash  <span class='$status'>$price</span></a>";
-                    $dateDeals .= $dealHTML;
-                    $dateDealsWithClient .= "<div class='d-flex'><a class='d-block text-success' href='/clients/" . $deal->client['id'] . "' target='_blank'>" . $deal->client['first_name'] . ' ' . $deal->client['last_name'] . "</a>&nbsp;" . $dealHTML . "</div>";
+            $group = $group->groupBy(function ($item, $key) {
+                return Carbon::parse($item->closed)->format('Y-m-d');
+            });
+            foreach ($group as $date => $deals) {
+                $deals->map(function ($item) {
+                   return $item->price =  $item->client->status == 'staff' ? 0 : $item->price;
+                });
+                if($deals->sum('price') > 0) {
+                    $result[] = [
+                        "title" => $deals->sum('price'),
+                        "start" => $date,
+                        "className" => $k == "finished" ? 'm-fc-event--solid-info' : 'm-fc-event--solid-danger',
+                        "deals" => $deals,
+                    ];
                 }
-
-                $classname = 'm-fc-event--solid-danger';
-                switch ($k) {
-                    case 'closed':
-                        $classname = 'm-fc-event--solid-success';
-                        break;
-                    case 'islate':
-                        $classname = 'm-fc-event--solid-warning';
-                        break;
-                }
-                $result[] = [
-                    'title' => $deals->sum('price') . ' AZN',
-                    'start' => $key,
-                    'className' => $classname,
-                    'description' => $dateDeals,
-                    'dateDealsWithClient' => $dateDealsWithClient,
-                ];
             }
         }
-        return json_encode($result);
+        return $result;
     }
 
     public function createYearData($data)
@@ -141,7 +126,6 @@ class StatisticsController extends BaseController
         foreach ($data as $key => $value) {
             $result->put($key, $value);
         }
-
         return $result;
     }
 
@@ -157,7 +141,7 @@ class StatisticsController extends BaseController
     private function calculateSums($data, $field, $precision = 2)
     {
         return $data->map(function ($item) use ($field, $precision) {
-            return  round($item->sum($field), 2);
+            return round($item->sum($field), 2);
         });
     }
 }

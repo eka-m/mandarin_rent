@@ -36,8 +36,10 @@ class Deal extends Base
         'planned' => ['title' => 'Запланирован', 'class' => 'accent'],
         'finished' => ['title' => 'Завершен', 'class' => 'brand'],
         'islate' => ['title' => 'Истек', 'class' => 'danger'],
-        'notpaid' => ['title' => 'Не оплачен', 'class' => 'focus'],
+        'notpaid' => ['title' => 'Неоплачен', 'class' => 'focus'],
     ];
+
+    protected $appends = ['statuses'];
 
 
     /** RELATIONS */
@@ -70,9 +72,20 @@ class Deal extends Base
             $query->where('status', 'staff');
         });
     }
+
     public function scopeManager($query, $id)
     {
         return $id ? $query->where('manager_id', $id) : $query;
+    }
+
+    public function scopeOnlyClosed($query)
+    {
+        return $query->whereNotNull('closed');
+    }
+
+    public function scopeInProcess($query, $status)
+    {
+        return $query->whereNull('closed');
     }
 
     public function scopeStatus($query, $status)
@@ -87,6 +100,13 @@ class Deal extends Base
 
 
     /** END SCOPES */
+
+    /** APPENDS */
+    public function getStatusesAttribute() {
+        return self::getStatuses();
+    }
+    /** END APPENDS */
+
 
 
     /** HELPERS */

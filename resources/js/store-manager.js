@@ -1,8 +1,10 @@
 import currencies from './store/currency-store';
 import deal from './store/deal-store';
+import offcanvas from './store/offcanvas-store'
 export default {
     currencies: currencies,
     deal: deal,
+    offcanvas:offcanvas,
     init(obj, value) {
         return _.merge(this[obj], value);
     },

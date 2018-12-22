@@ -51,11 +51,13 @@
 @include('partials.footer')
 
 <!-- end::Footer -->
+  <offcanvas></offcanvas>
 </div>
 <!-- end:: Page -->
 
 <!-- begin::Quick Sidebar -->
 @include("partials.quick-sidebar")
+
 <!-- end::Quick Sidebar -->
 
 <!-- begin::Scroll Top -->

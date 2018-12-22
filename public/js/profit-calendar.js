@@ -1,55 +1,4 @@
-webpackJsonp([2],Array(72).concat([
-/* 72 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(313)
-}
-var normalizeComponent = __webpack_require__(74)
-/* script */
-var __vue_script__ = __webpack_require__(316)
-/* template */
-var __vue_template__ = __webpack_require__(320)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-41c4581a"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/js/components/Calendars/Profit/profit_calendar.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-41c4581a", Component.options)
-  } else {
-    hotAPI.reload("data-v-41c4581a", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
+webpackJsonp([2],Array(73).concat([
 /* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16972,46 +16921,8 @@ module.exports = function listToStyles (parentId, list) {
 /* 310 */,
 /* 311 */,
 /* 312 */,
-/* 313 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(314);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(76)("ae3c211a", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-41c4581a\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./profit_calendar.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-41c4581a\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./profit_calendar.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 314 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(75)(false);
-// imports
-exports.i(__webpack_require__(315), "");
-
-// module
-exports.push([module.i, "\n", ""]);
-
-// exports
-
-
-/***/ }),
+/* 313 */,
+/* 314 */,
 /* 315 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17026,110 +16937,7 @@ exports.push([module.i, "/*!\n * FullCalendar v3.9.0\n * Docs & License: https:/
 
 
 /***/ }),
-/* 316 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_fullcalendar_dist_fullcalendar_min__ = __webpack_require__(317);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_fullcalendar_dist_fullcalendar_min___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_fullcalendar_dist_fullcalendar_min__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    name: "ProfitCalendar",
-    data: function data() {
-        return {
-            calendar: null,
-            data: null
-        };
-    },
-    mounted: function mounted() {
-        this.init();
-    },
-
-    methods: {
-        init: function init() {
-            this.calendar = $(this.$refs.calendar).fullCalendar({
-                header: {
-                    left: 'prev, today, next',
-                    center: 'prevYear, title, nextYear',
-                    right: 'month, listWeek'
-                },
-                buttonText: {
-                    prevYear: 'Пред год',
-                    nextYear: 'След год'
-                },
-                showNonCurrentDates: false,
-                editable: false,
-                eventLimit: 2, // allow "more" link when too many events
-                navLinks: true,
-                events: this.getCalendarData,
-                // viewRender:this.viewRender,
-                eventRender: this.eventRender
-            });
-        },
-        getCalendarData: function getCalendarData(start, end, timezone, callback) {
-            var _this = this;
-
-            mApp.block(this.$refs.calendarBlock);
-            axios.post(route('async.statistics.calendar'), { start: start, finish: end }).then(function (r) {
-                callback(r.data);
-                mApp.unblock(_this.$refs.calendarBlock);
-            });
-        },
-        eventRender: function eventRender(event, element) {
-            if (element.hasClass('fc-day-grid-event')) {
-                element.data('content', event.dateDealsWithClient);
-                element.data('placement', 'top');
-                element.find('.fc-title').css("fontSize", "14px");
-                element.popover({
-                    trigger: 'click',
-                    html: true,
-                    skin: "dark",
-                    title: 'Список сделок'
-                });
-            } else if (element.hasClass('fc-time-grid-event')) {
-                element.find('.fc-title').append('<div class="fc-description">' + event.description + '</div>');
-            } else if (element.find('.fc-list-item-title').length !== 0) {
-                element.find('.fc-list-item-title').append('<div class="fc-description">' + event.dateDealsWithClient + '</div>');
-            }
-        },
-        viewRender: function viewRender(view, element) {
-            console.log(view);
-            // this.getCalendarData(view.start,view.end);
-            return view;
-        }
-    }
-});
-
-/***/ }),
+/* 316 */,
 /* 317 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27786,7 +27594,247 @@ return jQuery;
 
 
 /***/ }),
-/* 320 */
+/* 320 */,
+/* 321 */,
+/* 322 */,
+/* 323 */,
+/* 324 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(326)
+}
+var normalizeComponent = __webpack_require__(74)
+/* script */
+var __vue_script__ = __webpack_require__(328)
+/* template */
+var __vue_template__ = __webpack_require__(329)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-1c075264"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Calendars/profit_calendar.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1c075264", Component.options)
+  } else {
+    hotAPI.reload("data-v-1c075264", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 325 */,
+/* 326 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(327);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(76)("70788834", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-1c075264\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./profit_calendar.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-1c075264\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./profit_calendar.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 327 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(75)(false);
+// imports
+exports.i(__webpack_require__(315), "");
+
+// module
+exports.push([module.i, "\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 328 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_fullcalendar_dist_fullcalendar_min__ = __webpack_require__(317);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_fullcalendar_dist_fullcalendar_min___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_fullcalendar_dist_fullcalendar_min__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: "ProfitCalendar",
+    data: function data() {
+        return {
+            calendar: null,
+            data: null
+        };
+    },
+    mounted: function mounted() {
+        this.init();
+    },
+
+    methods: {
+        init: function init() {
+            this.calendar = $(this.$refs.calendar).fullCalendar({
+                header: {
+                    left: 'prev, today, next',
+                    center: 'prevYear, title, nextYear',
+                    right: 'month, listWeek'
+                },
+                buttonText: {
+                    prevYear: 'Пред год',
+                    nextYear: 'След год'
+                },
+                textEscape: false,
+                showNonCurrentDates: false,
+                editable: false,
+                eventLimit: 2, // allow "more" link when too many events
+                navLinks: true,
+                events: this.getCalendarData,
+                eventClick: this.initPopover,
+                // viewRender:this.viewRender,
+                eventDataTransform: this.eventTransform,
+                eventRender: this.eventRender
+            });
+        },
+        getCalendarData: function getCalendarData(start, end, timezone, callback) {
+            var _this = this;
+
+            mApp.block(this.$refs.calendarBlock);
+            axios.post(route('async.statistics.calendar'), { start: start, finish: end }).then(function (r) {
+                callback(r.data);
+                mApp.unblock(_this.$refs.calendarBlock);
+            });
+        },
+        eventTransform: function eventTransform(event) {
+            return event;
+        },
+        eventRender: function eventRender(event, element) {
+            element.find('.fc-title').html(event.title + ' ' + this.$store.currencies.list[0].code).css({
+                fontSize: "16px",
+                cursor: "pointer"
+            });
+            if (element.hasClass('fc-day-grid-event')) {
+                // this.initPopover(event,element);
+            } else if (element.hasClass('fc-time-grid-event')) {
+                element.find('.fc-title').append('<div class="fc-description">' + event.description + '</div>');
+            } else if (element.find('.fc-list-item-title').length !== 0) {
+                element.find('.fc-list-item-title').append('<div class="fc-description">' + event.dateDealsWithClient + '</div>');
+            }
+        },
+        initPopover: function initPopover(event, element) {
+            var content = this.makeDealTemplate(event);
+            this.$store.offcanvas.show(content);
+        },
+        makeDealTemplate: function makeDealTemplate(event) {
+            var dealtype = {
+                notpaid: "Неоплаченные",
+                finished: "Оплаченные"
+            };
+            var result = '<h5>' + dealtype[event.deals[0].status] + ' c\u0434\u0435\u043B\u043A\u0438 ' + moment(event.start).format('DD MMMM YYYY') + '</h5><ul class="list-group">';
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = event.deals[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var deal = _step.value;
+
+                    var staff = '<span class="m-badge m-badge--wide m-badge--success m--font-boldest">STAFF</span>';
+                    var client = '\n                     <span class="m-badge m-badge--wide m-badge--' + (deal.status === 'finished' ? 'info' : 'danger') + ' m--font-boldest">\n\t\t                    ' + deal.price + ' ' + this.$store.currencies.list[0].code + '\n\t\t                    </span>';
+                    result += '\n\t\t\t\t\t\t\t\t\t\t<li class="list-group-item  m--font-boldest">\n\t\t                    <a href="' + route('clients.show', deal.client.id) + '" class="m-link m-link--brand" >\n\t\t\t\t\t\t\t\t\t\t\t\t' + deal.client.first_name + '\n\t\t\t\t\t\t\t\t\t\t\t\t' + (deal.client.last_name ? deal.client.last_name : '') + '\n\t\t\t\t\t\t\t\t\t\t\t\t' + (deal.client.father_name ? deal.client.father_name : '') + '\n\t\t\t\t\t\t\t\t\t\t\t\t</a>\n\t\t                    <a href="' + route('deals.show', deal.id) + '" class="m-link m-link--focus">\n\t\t                    ' + deal.hash + '\n\t\t                    </a>\n\t\t\t\t\t\t\t\t\t\t\t' + (deal.client.status === 'staff' ? staff : client) + '\n                   </li>\n                    ';
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+
+            result += '</ul>';
+            return result;
+        },
+        viewRender: function viewRender(view, element) {
+            return view;
+        }
+    }
+});
+
+/***/ }),
+/* 329 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -27842,7 +27890,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-41c4581a", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-1c075264", module.exports)
   }
 }
 
