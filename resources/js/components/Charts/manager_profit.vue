@@ -11,7 +11,7 @@
             <div class="m-portlet__head-tools">
                 <div class="form-group">
                     <button @click="showdeals = !showdeals"
-                            :class="`btn m-btn m-btn--icon m-btn m-btn--custom btn-${showdeals ? 'accent' : 'brand'}`">
+                            :class="`btn m-btn m-btn--icon m-btn m-btn--custom mr-2 btn-${showdeals ? 'accent' : 'brand'}`">
                         <i class="fa flaticon-share"></i> Сделки</button>
                 </div>
                 <div class="form-group mr-3">
@@ -20,8 +20,8 @@
                         <option v-for="(manager, key) in managers"
                                 :key="key"
                                 :value="manager.id"
-                                :data-content='`${manager.name} <span class="m-badge m-badge--accent m--font-bolder">${manager.params.percent} %</span>`'
-                        >{{manager.name}} ${manager.params.percent} %
+                                :data-content='`${manager.name} <span class="m-badge m-badge--wide m-badge--accent m--font-boldest">${manager.percent} %</span>`'
+                        >{{manager.name}} ${manager.percent} %
                         </option>
                     </select>
                 </div>
@@ -162,18 +162,19 @@
                 return this.managers.filter(i => i.id === this.manager)[0];
             },
             totalProfit() {
-                const self = this;
-                return this.data.notPaidProfit.map((item, index) => {
-                    return Number(Math.round(item + self.data.paidProfit[index]).toFixed(2));
-                });
+                if(this.data) {
+                    return this.data.finished.map((item, index) => {
+                        return Number(Math.round(item + this.data.notpaid[index]).toFixed(2));
+                    });
+                }
             }
         },
         watch: {
             "dates.selected"(value) {
-                // this.getData();
+                this.getData();
             },
             manager() {
-                // this.getData();
+                this.getData();
             }
         },
         created() {

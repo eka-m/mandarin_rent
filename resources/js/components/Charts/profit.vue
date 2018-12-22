@@ -246,15 +246,18 @@
                 axios.get(route('async.statistics.year', year)).then(r => {
                     if (r.status === 200) {
                         this.data = r.data;
-                        if(this.chart) {
-                            this.chart.destroy();
-                            this.renderChart();
-                        } else  {
-                            this.renderChart();
-                        }
+                        this.reloadChart();
                         mApp.unblock(this.$refs.graphContainer, {});
                     }
                 });
+            },
+            reloadChart() {
+                if (this.chart) {
+                    this.chart.destroy();
+                    this.renderChart();
+                } else {
+                    this.renderChart();
+                }
             },
             calculatePrices(data) {
                 return Math.round(data.reduce((a, b) => a + b, 0)).toFixed(2);

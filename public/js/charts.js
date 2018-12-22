@@ -35,7 +35,7 @@ exports = module.exports = __webpack_require__(75)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -298,15 +298,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.get(route('async.statistics.year', year)).then(function (r) {
                 if (r.status === 200) {
                     _this2.data = r.data;
-                    if (_this2.chart) {
-                        _this2.chart.destroy();
-                        _this2.renderChart();
-                    } else {
-                        _this2.renderChart();
-                    }
+                    _this2.reloadChart();
                     mApp.unblock(_this2.$refs.graphContainer, {});
                 }
             });
+        },
+        reloadChart: function reloadChart() {
+            if (this.chart) {
+                this.chart.destroy();
+                this.renderChart();
+            } else {
+                this.renderChart();
+            }
         },
         calculatePrices: function calculatePrices(data) {
             return Math.round(data.reduce(function (a, b) {
@@ -705,7 +708,7 @@ exports = module.exports = __webpack_require__(75)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -887,18 +890,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             })[0];
         },
         totalProfit: function totalProfit() {
-            var self = this;
-            return this.data.notPaidProfit.map(function (item, index) {
-                return Number(Math.round(item + self.data.paidProfit[index]).toFixed(2));
-            });
+            var _this2 = this;
+
+            if (this.data) {
+                return this.data.finished.map(function (item, index) {
+                    return Number(Math.round(item + _this2.data.notpaid[index]).toFixed(2));
+                });
+            }
         }
     },
     watch: {
         "dates.selected": function datesSelected(value) {
-            // this.getData();
+            this.getData();
         },
         manager: function manager() {
-            // this.getData();
+            this.getData();
         }
     },
     created: function created() {
@@ -1026,14 +1032,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         getData: function getData() {
-            var _this2 = this;
+            var _this3 = this;
 
             mApp.block(this.$refs.graphContainer, {});
             axios.get("/async/statistics/year/" + this.dates.selected + '/' + this.manager).then(function (r) {
                 if (r.status === 200) {
-                    _this2.data = r.data;
-                    _this2.reloadChart();
-                    mApp.unblock(_this2.$refs.graphContainer, {});
+                    _this3.data = r.data;
+                    _this3.reloadChart();
+                    mApp.unblock(_this3.$refs.graphContainer, {});
                 }
             });
         },
@@ -1089,7 +1095,7 @@ var render = function() {
               "button",
               {
                 class:
-                  "btn m-btn m-btn--icon m-btn m-btn--custom btn-" +
+                  "btn m-btn m-btn--icon m-btn m-btn--custom mr-2 btn-" +
                   (_vm.showdeals ? "accent" : "brand"),
                 on: {
                   click: function($event) {
@@ -1144,8 +1150,8 @@ var render = function() {
                     attrs: {
                       "data-content":
                         manager.name +
-                        ' <span class="m-badge m-badge--accent m--font-bolder">' +
-                        manager.params.percent +
+                        ' <span class="m-badge m-badge--wide m-badge--accent m--font-boldest">' +
+                        manager.percent +
                         " %</span>"
                     },
                     domProps: { value: manager.id }
@@ -1153,7 +1159,7 @@ var render = function() {
                   [
                     _vm._v(
                       _vm._s(manager.name) +
-                        " ${manager.params.percent} %\n                    "
+                        " ${manager.percent} %\n                    "
                     )
                   ]
                 )
