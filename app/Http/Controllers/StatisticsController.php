@@ -89,16 +89,14 @@ class StatisticsController extends BaseController
         $deals = Deal::with('client')
             ->onlyClosed()
             ->whereBetween('closed', [$start, $finish])
-            ->get()
-            ->groupBy('status');
-
-
+            ->get();
         return response()->json($this->createCalendarEvents($deals));
     }
 
     public function createCalendarEvents($data)
     {
         $result = [];
+        $data = $data->groupBy('status');
         foreach ($data as $k => $group) {
             $group = $group->groupBy(function ($item, $key) {
                 return Carbon::parse($item->closed)->format('Y-m-d');
