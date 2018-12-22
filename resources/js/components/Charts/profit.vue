@@ -9,15 +9,16 @@
 								</div>
 						</div>
 						<div class="m-portlet__head-tools">
-								<div class="form-group">
-										<button @click="general = !general"
-										        :class="`btn m-btn m-btn--icon m-btn m-btn--custom mr-2 btn-${general ? 'info' : 'brand'}`">
-												<i :class="`la la-${general ? 'circle-o' : 'dot-circle-o'}`"></i>
-												{{general ? 'Возможная' : 'Реальная'}}
-										</button>
-								</div>
 								<div class="form-group mr-3">
-										<select ref="yearSelect" v-model="dates.selected" data-width="100px">
+										<select class="select" v-model="type" data-width="200px">
+												<option :value="key"
+												        v-for="(item, key) in types"
+												        :key="key">{{item}}
+												</option>
+										</select>
+								</div>
+								<div class="form-group">
+										<select class="select" v-model="dates.selected" data-width="100px">
 												<option :value="dates.start">{{dates.start}}</option>
 												<option :value="Number(dates.start) + Number(year)"
 												        v-for="(year, key) in (dates.end - dates.start)"
@@ -121,13 +122,18 @@
                 end: moment().format('YYYY'),
                 selected: moment().format('YYYY'),
             },
-            general: false,
+		        types: {
+                start: "По дате заключения сделок",
+                finish: "По дате завершенимя сделок",
+                closed: "По дате оплаты сделок"
+		        },
+            type: 'closed',
         }),
         watch: {
             "dates.selected"(value) {
                 this.getData();
             },
-		        general() {
+		        type() {
                 this.getData();
 		        }
         },
@@ -135,7 +141,7 @@
             this.getData(2018);
         },
         mounted() {
-            $(this.$refs.yearSelect).selectpicker({language: "ru"})
+            $('.select').selectpicker({language: "ru"})
         },
         computed: {
             totalProfit() {
@@ -260,8 +266,7 @@
             },
             getData() {
                 mApp.block(this.$refs.graphContainer, {})
-		            const type = this.general ? 'general' : 'year'
-                axios.get(route('async.statistics.'+type, this.dates.selected)).then(r => {
+                axios.get(route('async.statistics.year',[this.dates.selected, this.type])).then(r => {
                     if (r.status === 200) {
                         this.data = r.data;
                         this.reloadChart();

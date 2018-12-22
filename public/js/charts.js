@@ -35,7 +35,7 @@ exports = module.exports = __webpack_require__(75)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -47,6 +47,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -171,14 +172,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 end: moment().format('YYYY'),
                 selected: moment().format('YYYY')
             },
-            general: false
+            types: {
+                start: "По дате заключения сделок",
+                finish: "По дате завершенимя сделок",
+                closed: "По дате оплаты сделок"
+            },
+            type: 'closed'
         };
     },
     watch: {
         "dates.selected": function datesSelected(value) {
             this.getData();
         },
-        general: function general() {
+        type: function type() {
             this.getData();
         }
     },
@@ -186,7 +192,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.getData(2018);
     },
     mounted: function mounted() {
-        $(this.$refs.yearSelect).selectpicker({ language: "ru" });
+        $('.select').selectpicker({ language: "ru" });
     },
 
     computed: {
@@ -312,8 +318,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             mApp.block(this.$refs.graphContainer, {});
-            var type = this.general ? 'general' : 'year';
-            axios.get(route('async.statistics.' + type, this.dates.selected)).then(function (r) {
+            axios.get(route('async.statistics.year', [this.dates.selected, this.type])).then(function (r) {
                 if (r.status === 200) {
                     _this2.data = r.data;
                     _this2.reloadChart();
@@ -358,33 +363,45 @@ var render = function() {
         _vm._m(0),
         _vm._v(" "),
         _c("div", { staticClass: "m-portlet__head-tools" }, [
-          _c("div", { staticClass: "form-group" }, [
+          _c("div", { staticClass: "form-group mr-3" }, [
             _c(
-              "button",
+              "select",
               {
-                class:
-                  "btn m-btn m-btn--icon m-btn m-btn--custom mr-2 btn-" +
-                  (_vm.general ? "info" : "brand"),
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.type,
+                    expression: "type"
+                  }
+                ],
+                staticClass: "select",
+                attrs: { "data-width": "200px" },
                 on: {
-                  click: function($event) {
-                    _vm.general = !_vm.general
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.type = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
                   }
                 }
               },
-              [
-                _c("i", {
-                  class: "la la-" + (_vm.general ? "circle-o" : "dot-circle-o")
-                }),
-                _vm._v(
-                  "\n\t\t\t\t\t\t\t\t\t\t\t\t" +
-                    _vm._s(_vm.general ? "Возможная" : "Реальная") +
-                    "\n\t\t\t\t\t\t\t\t\t\t"
-                )
-              ]
+              _vm._l(_vm.types, function(item, key) {
+                return _c("option", { key: key, domProps: { value: key } }, [
+                  _vm._v(_vm._s(item) + "\n\t\t\t\t\t\t\t\t\t\t\t\t")
+                ])
+              })
             )
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "form-group mr-3" }, [
+          _c("div", { staticClass: "form-group" }, [
             _c(
               "select",
               {
@@ -396,7 +413,7 @@ var render = function() {
                     expression: "dates.selected"
                   }
                 ],
-                ref: "yearSelect",
+                staticClass: "select",
                 attrs: { "data-width": "100px" },
                 on: {
                   change: function($event) {

@@ -23,10 +23,10 @@ class StatisticsController extends BaseController
         return view('statistics.managers', compact('managers'));
     }
 
-    public function profit($year, $manager = null)
+    public function profit($year, $type = 'closed', $manager = null)
     {
-        $dbResult = Deal::whereYear('closed', $year)->withoutStaff()->onlyClosed()->manager($manager)->get();
-        $deals = $this->makeStatistics($dbResult, 'closed', 'price');
+        $dbResult = Deal::whereYear($type, $year)->withoutStaff()->onlyClosed()->manager($manager)->get();
+        $deals = $this->makeStatistics($dbResult, $type, 'price');
         if ($manager && isset($deals['finished'])) {
             $deals['manager'] = $this->calculateManagerProfit($dbResult);
         }
@@ -41,8 +41,13 @@ class StatisticsController extends BaseController
 
     public function makeStatistics($deals, $date, $sum) {
         $deals = $deals->groupBy('status');
-        $deals->transform(function ($item, $key) use($date, $sum) {
-            if ($key === "manager") {return $item;}
+        if(!isset($deals['finished'])) {
+            $deals['finished'] = collect([]);
+        }
+        if(!isset($deals['notpaid'])) {
+            $deals['notpaid'] = collect([]);
+        }
+        $deals->transform(function ($item) use($date, $sum) {
             $result = $this->groupByMonth($item, $date);
             $result = $this->calculateSums($result, $sum);
             $result = $this->createYearData($result)->values();

@@ -123,7 +123,7 @@ class Deal extends Base
 
     public static function startDate()
     {
-        return self::min('created_at');
+        return self::min('start');
     }
 
     public static function getStatuses()
