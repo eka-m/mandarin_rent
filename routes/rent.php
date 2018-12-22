@@ -36,6 +36,8 @@ Route::group(['middleware' => ['route.log']], function () {
 
     /*STATISTICS*/
     Route::get('/statistics', 'StatisticsController@show')->name('statistics');
+    Route::get('/statistics/calendar', 'StatisticsController@showCalendar')->name('statistics.calendar');
+    Route::get('/statistics/manager', 'StatisticsController@showManager')->name('statistics.manager');
     /*END STATISTICS*/
 });
 

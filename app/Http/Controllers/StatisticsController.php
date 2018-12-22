@@ -11,8 +11,16 @@ class StatisticsController extends BaseController
 {
     public function show()
     {
+        return view('statistics.home');
+    }
+
+    public function showCalendar() {
+        return view('statistics.calendar');
+    }
+
+    public function showManager() {
         $managers = User::role('manager')->get()->toJson();
-        return view('statistics.statistics', compact('deals', 'managers'));
+        return view('statistics.managers', compact('managers'));
     }
 
     public function profit($year, $manager = null)
