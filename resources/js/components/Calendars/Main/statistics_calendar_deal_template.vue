@@ -7,9 +7,9 @@
 								<span :class="`m-badge m-badge--wide m-badge--${deal.statuses[deal.status].class}`">{{deal.statuses[deal.status].title}}</span>
 						</li>
 						<li class="list-group-item">
-								Стоимость: <span class="m-badge m-badge--wide m-badge--danger">{{deal.cost}}</span>
+								Стоимость: <span class="m-badge m-badge--wide m-badge--danger">{{deal.realcost}}</span>
 								Скидка: <span class="m-badge m-badge--wide m-badge--warning">{{deal.sale}} %</span>
-								Итог: <span class="m-badge m-badge--wide m-badge--success">{{deal.realcost}}</span>
+								Итог: <span class="m-badge m-badge--wide m-badge--success">{{deal.cost}}</span>
 						</li>
 						<li class="list-group-item">
 								Клиент:  <a class="m-link m-link--brand" :href="route('clients.show', deal.client.id)" target="_blank">{{deal.client.fullname}}</a>

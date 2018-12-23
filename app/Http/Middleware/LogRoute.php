@@ -15,7 +15,7 @@ class LogRoute
      */
     public function handle($request, Closure $next)
     {
-         if(auth()->user()->hasRole('manager')) {
+         if(!auth()->user()->hasRole('root')) {
              activity('route')->state('info')->log(auth()->user()->name. " перешел на страницу: <a class='m-link' target='_blank' href='/". $request->path() ."'>".$request->path()."</a>");
          }
         return $next($request);

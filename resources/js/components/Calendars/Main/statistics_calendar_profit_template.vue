@@ -22,8 +22,8 @@
 		    props:['deals'],
 		    data:() => ({
 				   types: {
-				       finsihed: 'Завершенные',
-				       closed: 'Неоплаченные',
+				       finished: 'Завершенные',
+				       notpaid: 'Неоплаченные',
 				   }
 		    }),
 		    methods:{
