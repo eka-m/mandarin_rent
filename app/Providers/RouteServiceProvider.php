@@ -73,7 +73,7 @@ class RouteServiceProvider extends ServiceProvider
         //TODO Don`t forget setup auth
 //        'auth'
         Route::group([
-            'middleware' => ['web'],
+            'middleware' => ['web', 'auth'],
             'prefix' => 'async',
             'as' => 'async.',
             'namespace' => $this->namespace,
