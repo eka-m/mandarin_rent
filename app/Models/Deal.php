@@ -13,7 +13,7 @@ class Deal extends Base
     protected $fillable = [
         'name',
         'start',
-        'finish',
+        'end',
         'closed',
         'hash',
         'client_id',
@@ -39,7 +39,7 @@ class Deal extends Base
         'notpaid' => ['title' => 'Неоплачен', 'class' => 'focus'],
     ];
 
-    protected $appends = ['statuses'];
+    protected $appends = ['statuses', 'cost', 'realcost'];
 
 
     /** RELATIONS */
@@ -78,12 +78,12 @@ class Deal extends Base
         return $id ? $query->where('manager_id', $id) : $query;
     }
 
-    public function scopeOnlyClosed($query)
+    public function scopeOnlyClosed($query, $is = true)
     {
-        return $query->whereNotNull('closed');
+        return $is ? $query->whereNotNull('closed') : $query;
     }
 
-    public function scopeInProcess($query, $status)
+    public function scopeInProcess($query)
     {
         return $query->whereNull('closed');
     }
@@ -112,6 +112,14 @@ class Deal extends Base
     /** END SCOPES */
 
     /** APPENDS */
+    public function getCostAttribute() {
+        return round($this->price,2) . ' ' .html_entity_decode(setting('currencies.list.0.code'));
+    }
+
+    public function getRealcostAttribute() {
+        return round($this->realprice,2) . ' ' .html_entity_decode(setting('currencies.list.0.code'));
+    }
+
     public function getStatusesAttribute() {
         return self::getStatuses();
     }

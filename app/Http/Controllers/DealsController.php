@@ -167,7 +167,7 @@ class DealsController extends BaseController
         if (Carbon::parse($deal['start'])->lessThanOrEqualTo(Carbon::now())) {
             $deal['status'] = 'active';
         }
-        if (Carbon::parse($deal['finish'])->lessThanOrEqualTo(Carbon::now())) {
+        if (Carbon::parse($deal['end'])->lessThanOrEqualTo(Carbon::now())) {
             $deal['status'] = 'islate';
         }
         return $deal;
@@ -201,7 +201,7 @@ class DealsController extends BaseController
 
     private static function expireShedule()
     {
-        $deals = Deal::where('finish', '<=', Carbon::now())->where('status', 'active')->with('client')->orderBy('start')->get();
+        $deals = Deal::where('end', '<=', Carbon::now())->where('status', 'active')->with('client')->orderBy('start')->get();
 
         if (!$deals->isEmpty()) {
             foreach ($deals as $deal) {

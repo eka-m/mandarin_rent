@@ -11,7 +11,7 @@ const columns = [
     {data: 'hash', name: 'hash', orderable: false},
     {data: 'client', name: 'client.first_name', orderable: false, width: "20%"},
     {data: 'items', name: 'items.name', orderable: false, searchable: true, width: "20%"},
-    {data: 'finish', name: 'finish'},
+    {data: 'end', name: 'end'},
     {data: 'status', name: 'status', orderable: true, width: "15%", className: 'text-center'},
     {data: 'manager', name: 'manager.id', className: "text-center", visible:false},
     {data: 'actions', orderable: false, searchable: false, width: "15%", className: 'text-center'},

@@ -1,6 +1,6 @@
 <template>
 		<div class="m-portlet m-portlet--full-height m-portlet--skin-light m-portlet--fit shadow-none">
-				<div class="m-portlet__head">
+				<div class="m-portlet__head h-auto">
 						<div class="m-portlet__head-caption">
 								<div class="m-portlet__head-title">
 										<h3 class="m-portlet__head-text">
@@ -8,23 +8,29 @@
 										</h3>
 								</div>
 						</div>
-						<div class="m-portlet__head-tools">
-								<div class="form-group mr-3">
-										<select class="select" v-model="type" data-width="200px">
-												<option :value="key"
-												        v-for="(item, key) in types"
-												        :key="key">{{item}}
-												</option>
-										</select>
-								</div>
-								<div class="form-group">
-										<select class="select" v-model="dates.selected" data-width="100px">
-												<option :value="dates.start">{{dates.start}}</option>
-												<option :value="Number(dates.start) + Number(year)"
-												        v-for="(year, key) in (dates.end - dates.start)"
-												        :key="key">{{Number(dates.start) + Number(year)}}
-												</option>
-										</select>
+						<div class="m-portlet__head-tools pt-3">
+								<div class="row">
+										<div class="col">
+												<div class="form-group mr-3">
+														<select class="select" v-model="type" data-width="220px">
+																<option :value="key"
+																        v-for="(item, key) in types"
+																        :key="key">{{item}}
+																</option>
+														</select>
+												</div>
+										</div>
+										<div class="col">
+												<div class="form-group">
+														<select class="select" v-model="dates.selected" data-width="100px">
+																<option :value="dates.start">{{dates.start}}</option>
+																<option :value="Number(dates.start) + Number(year)"
+																        v-for="(year, key) in (dates.end - dates.start)"
+																        :key="key">{{Number(dates.start) + Number(year)}}
+																</option>
+														</select>
+												</div>
+										</div>
 								</div>
 						</div>
 				</div>
@@ -124,7 +130,7 @@
             },
 		        types: {
                 start: "По дате заключения сделок",
-                finish: "По дате завершенимя сделок",
+                end: "По дате завершения сделок",
                 closed: "По дате оплаты сделок"
 		        },
             type: 'closed',
@@ -163,6 +169,7 @@
                             {
                                 label: "Общее",
                                 borderColor: 'RGB(255, 175, 31)',
+                                backgroundColor: 'RGB(255, 175, 31,0.5)',
                                 pointHoverRadius: 10,
                                 fill: false,
                                 data: self.totalProfit,

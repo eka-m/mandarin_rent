@@ -6,7 +6,7 @@
 								<div class="col-12">
 										<div id="offcanvas-content" class="m-scrollable" data-scrollbar-shown="true" data-scrollable="true" style="height: 80vh;">
 												<transition name="fade">
-														<div v-if="show" v-html="offcanvas.content"></div>
+														<div v-show="show" ref="offcanvascontent"></div>
 												</transition>
 										</div>
 								</div>
@@ -51,6 +51,12 @@
                     this.element.hide();
                 }
             },
+				    "offcanvas.content" (value) {
+                this.$refs.offcanvascontent.innerHTML = '';
+                if(value !== '') {
+                    this.$refs.offcanvascontent.appendChild(value);
+                }
+				    }
 		    }
     }
 </script>

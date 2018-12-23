@@ -1,16 +1,16 @@
 webpackJsonp([1],{
 
-/***/ 228:
+/***/ 230:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(229);
+var content = __webpack_require__(231);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(76)("2dd23a59", content, false, {});
+var update = __webpack_require__(78)("2dd23a59", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -27,26 +27,32 @@ if(false) {
 
 /***/ }),
 
-/***/ 229:
+/***/ 231:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(75)(false);
+exports = module.exports = __webpack_require__(77)(false);
 // imports
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
 
 /***/ }),
 
-/***/ 230:
+/***/ 232:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -174,7 +180,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             },
             types: {
                 start: "По дате заключения сделок",
-                finish: "По дате завершенимя сделок",
+                end: "По дате завершения сделок",
                 closed: "По дате оплаты сделок"
             },
             type: 'closed'
@@ -216,6 +222,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     datasets: [{
                         label: "Общее",
                         borderColor: 'RGB(255, 175, 31)',
+                        backgroundColor: 'RGB(255, 175, 31,0.5)',
                         pointHoverRadius: 10,
                         fill: false,
                         data: self.totalProfit
@@ -345,7 +352,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 231:
+/***/ 233:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -359,105 +366,122 @@ var render = function() {
         "m-portlet m-portlet--full-height m-portlet--skin-light m-portlet--fit shadow-none"
     },
     [
-      _c("div", { staticClass: "m-portlet__head" }, [
+      _c("div", { staticClass: "m-portlet__head h-auto" }, [
         _vm._m(0),
         _vm._v(" "),
-        _c("div", { staticClass: "m-portlet__head-tools" }, [
-          _c("div", { staticClass: "form-group mr-3" }, [
-            _c(
-              "select",
-              {
-                directives: [
+        _c("div", { staticClass: "m-portlet__head-tools pt-3" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col" }, [
+              _c("div", { staticClass: "form-group mr-3" }, [
+                _c(
+                  "select",
                   {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.type,
-                    expression: "type"
-                  }
-                ],
-                staticClass: "select",
-                attrs: { "data-width": "200px" },
-                on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.type = $event.target.multiple
-                      ? $$selectedVal
-                      : $$selectedVal[0]
-                  }
-                }
-              },
-              _vm._l(_vm.types, function(item, key) {
-                return _c("option", { key: key, domProps: { value: key } }, [
-                  _vm._v(_vm._s(item) + "\n\t\t\t\t\t\t\t\t\t\t\t\t")
-                ])
-              })
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c(
-              "select",
-              {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.dates.selected,
-                    expression: "dates.selected"
-                  }
-                ],
-                staticClass: "select",
-                attrs: { "data-width": "100px" },
-                on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.$set(
-                      _vm.dates,
-                      "selected",
-                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                    )
-                  }
-                }
-              },
-              [
-                _c("option", { domProps: { value: _vm.dates.start } }, [
-                  _vm._v(_vm._s(_vm.dates.start))
-                ]),
-                _vm._v(" "),
-                _vm._l(_vm.dates.end - _vm.dates.start, function(year, key) {
-                  return _c(
-                    "option",
-                    {
-                      key: key,
-                      domProps: {
-                        value: Number(_vm.dates.start) + Number(year)
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.type,
+                        expression: "type"
                       }
-                    },
-                    [
-                      _vm._v(
-                        _vm._s(Number(_vm.dates.start) + Number(year)) +
-                          "\n\t\t\t\t\t\t\t\t\t\t\t\t"
+                    ],
+                    staticClass: "select",
+                    attrs: { "data-width": "220px" },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.type = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  _vm._l(_vm.types, function(item, key) {
+                    return _c(
+                      "option",
+                      { key: key, domProps: { value: key } },
+                      [
+                        _vm._v(
+                          _vm._s(item) + "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
+                        )
+                      ]
+                    )
+                  })
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.dates.selected,
+                        expression: "dates.selected"
+                      }
+                    ],
+                    staticClass: "select",
+                    attrs: { "data-width": "100px" },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.dates,
+                          "selected",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { domProps: { value: _vm.dates.start } }, [
+                      _vm._v(_vm._s(_vm.dates.start))
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.dates.end - _vm.dates.start, function(
+                      year,
+                      key
+                    ) {
+                      return _c(
+                        "option",
+                        {
+                          key: key,
+                          domProps: {
+                            value: Number(_vm.dates.start) + Number(year)
+                          }
+                        },
+                        [
+                          _vm._v(
+                            _vm._s(Number(_vm.dates.start) + Number(year)) +
+                              "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
+                          )
+                        ]
                       )
-                    ]
-                  )
-                })
-              ],
-              2
-            )
+                    })
+                  ],
+                  2
+                )
+              ])
+            ])
           ])
         ])
       ]),
@@ -738,17 +762,17 @@ if (false) {
 
 /***/ }),
 
-/***/ 232:
+/***/ 234:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(233);
+var content = __webpack_require__(235);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(76)("76796ae0", content, false, {});
+var update = __webpack_require__(78)("76796ae0", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -765,26 +789,29 @@ if(false) {
 
 /***/ }),
 
-/***/ 233:
+/***/ 235:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(75)(false);
+exports = module.exports = __webpack_require__(77)(false);
 // imports
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
 
 /***/ }),
 
-/***/ 234:
+/***/ 236:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
 //
 //
 //
@@ -1103,7 +1130,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this3 = this;
 
             mApp.block(this.$refs.graphContainer, {});
-            axios.get(route('async.statistics.year', this.dates.selected) + '/' + this.manager).then(function (r) {
+            axios.get(route('async.statistics.year', {
+                year: this.dates.selected,
+                type: "closed",
+                manager: this.manager
+            })).then(function (r) {
                 if (r.status === 200) {
                     _this3.data = r.data;
                     _this3.reloadChart();
@@ -1130,7 +1161,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 235:
+/***/ 237:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -1149,9 +1180,9 @@ var render = function() {
           _c("div", { staticClass: "m-portlet__head-title" }, [
             _c("h3", { staticClass: "m-portlet__head-text" }, [
               _vm._v(
-                "\n                        Статистика менеджера: " +
+                "\n\t\t\t\t\t\t\t\t\t\t\t\tСтатистика менеджера: " +
                   _vm._s(_vm.selectedManager.name) +
-                  "\n                    "
+                  "\n\t\t\t\t\t\t\t\t\t\t"
               )
             ])
           ])
@@ -1176,9 +1207,9 @@ var render = function() {
                   class: "fa flaticon-" + (_vm.showdeals ? "user" : "share")
                 }),
                 _vm._v(
-                  "\n\t\t                   " +
+                  "\n\t\t\t\t\t\t\t\t\t\t\t\t" +
                     _vm._s(_vm.showdeals ? "Менеджер" : "Сделки") +
-                    "\n                    "
+                    "\n\t\t\t\t\t\t\t\t\t\t"
                 )
               ]
             )
@@ -1236,7 +1267,7 @@ var render = function() {
                   [
                     _vm._v(
                       _vm._s(manager.name) +
-                        " ${manager.percent} %\n                        "
+                        " ${manager.percent} %\n\t\t\t\t\t\t\t\t\t\t\t\t"
                     )
                   ]
                 )
@@ -1294,7 +1325,7 @@ var render = function() {
                     [
                       _vm._v(
                         _vm._s(Number(_vm.dates.start) + Number(year)) +
-                          "\n                        "
+                          "\n\t\t\t\t\t\t\t\t\t\t\t\t"
                       )
                     ]
                   )
@@ -1365,7 +1396,8 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    _vm._s(_vm.month ? _vm.month : "За год")
+                                    _vm._s(_vm.month ? _vm.month : "За год") +
+                                      "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
                                   )
                                 ]
                               ),
@@ -1581,7 +1613,12 @@ var render = function() {
                                 staticClass:
                                   "m-widget21__number m--font-success h4"
                               },
-                              [_vm._v(_vm._s(_vm.month ? _vm.month : "За год"))]
+                              [
+                                _vm._v(
+                                  _vm._s(_vm.month ? _vm.month : "За год") +
+                                    "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
+                                )
+                              ]
                             ),
                             _vm._v(" "),
                             _c(
@@ -1592,13 +1629,13 @@ var render = function() {
                               },
                               [
                                 _vm._v(
-                                  "\n                                        " +
+                                  "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" +
                                     _vm._s(
                                       _vm.prices.manager !== null
                                         ? _vm.prices.manager
                                         : _vm.calculatePrices(_vm.data.manager)
                                     ) +
-                                    "\n                                        "
+                                    "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
                                 ),
                                 _c("span", {
                                   domProps: {
@@ -1644,19 +1681,19 @@ if (false) {
 
 /***/ }),
 
-/***/ 57:
+/***/ 58:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(228)
+  __webpack_require__(230)
 }
-var normalizeComponent = __webpack_require__(74)
+var normalizeComponent = __webpack_require__(76)
 /* script */
-var __vue_script__ = __webpack_require__(230)
+var __vue_script__ = __webpack_require__(232)
 /* template */
-var __vue_template__ = __webpack_require__(231)
+var __vue_template__ = __webpack_require__(233)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -1696,19 +1733,19 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 58:
+/***/ 59:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(232)
+  __webpack_require__(234)
 }
-var normalizeComponent = __webpack_require__(74)
+var normalizeComponent = __webpack_require__(76)
 /* script */
-var __vue_script__ = __webpack_require__(234)
+var __vue_script__ = __webpack_require__(236)
 /* template */
-var __vue_template__ = __webpack_require__(235)
+var __vue_template__ = __webpack_require__(237)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -1748,7 +1785,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 74:
+/***/ 76:
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -1858,7 +1895,7 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 75:
+/***/ 77:
 /***/ (function(module, exports) {
 
 /*
@@ -1941,7 +1978,7 @@ function toComment(sourceMap) {
 
 /***/ }),
 
-/***/ 76:
+/***/ 78:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -1960,7 +1997,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(77)
+var listToStyles = __webpack_require__(79)
 
 /*
 type StyleObject = {
@@ -2170,7 +2207,7 @@ function applyToTag (styleElement, obj) {
 
 /***/ }),
 
-/***/ 77:
+/***/ 79:
 /***/ (function(module, exports) {
 
 /**

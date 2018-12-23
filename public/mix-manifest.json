@@ -9,6 +9,7 @@
     "/js/editor.js": "/js/editor.js",
     "/js/statistics.js": "/js/statistics.js",
     "/js/paginatable-box.js": "/js/paginatable-box.js",
+    "/js/offcanvas.js": "/js/offcanvas.js",
     "/js/imageinput.js": "/js/imageinput.js",
     "/js/delete-btn.js": "/js/delete-btn.js",
     "/js/deal-manager-profit.js": "/js/deal-manager-profit.js",
@@ -17,6 +18,5 @@
     "/js/app.js": "/js/app.js",
     "/js/custom.js": "/js/custom.js",
     "/js/login.js": "/js/login.js",
-    "/css/app.css": "/css/app.css",
-    "/js/offcanvas.js": "/js/offcanvas.js"
+    "/css/app.css": "/css/app.css"
 }

@@ -1,138 +1,141 @@
 <template>
-    <div class="m-portlet m-portlet--full-height m-portlet--skin-light m-portlet--fit  shadow-none">
-        <div class="m-portlet__head">
-            <div class="m-portlet__head-caption">
-                <div class="m-portlet__head-title">
-                    <h3 class="m-portlet__head-text">
-                        Статистика менеджера: {{selectedManager.name}}
-                    </h3>
-                </div>
-            </div>
-            <div class="m-portlet__head-tools">
-                <div class="form-group">
-                    <button @click="showdeals = !showdeals"
-                            :class="`btn m-btn m-btn--icon m-btn m-btn--custom mr-2 btn-${showdeals ? 'success' : 'brand'}`">
-                        <i :class="`fa flaticon-${showdeals ? 'user' : 'share'}`"></i>
-		                   {{showdeals ? 'Менеджер' : 'Сделки'}}
-                    </button>
-                </div>
-                <div class="form-group mr-3">
-                    <select class="manager-profit-select" ref="managerSelect" v-model="manager"
-                            data-width="230px" data-live-search="true" title="Выберите менеджера">
-                        <option v-for="(manager, key) in managers"
-                                :key="key"
-                                :value="manager.id"
-                                :data-content='`${manager.name} <span class="m-badge m-badge--wide m-badge--accent m--font-boldest">${manager.percent} %</span>`'
-                        >{{manager.name}} ${manager.percent} %
-                        </option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <select class="manager-profit-select" ref="yearSelect" v-model="dates.selected" data-width="100px">
-                        <option :value="dates.start">{{dates.start}}</option>
-                        <option :value="Number(dates.start) + Number(year)"
-                                v-for="(year, key) in (dates.end - dates.start)"
-                                :key="key">{{Number(dates.start) + Number(year)}}
-                        </option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div ref="graphContainer" class="m-portlet__body position-relative">
-            <div class="m-widget21" style="min-height: 420px">
-                <transition name="fade">
-                    <div class="row" v-if="showdeals && data">
-                        <div class="col">
-                            <div class="m-widget21__item m--pull-left">
+		<div class="m-portlet m-portlet--full-height m-portlet--skin-light m-portlet--fit  shadow-none">
+				<div class="m-portlet__head">
+						<div class="m-portlet__head-caption">
+								<div class="m-portlet__head-title">
+										<h3 class="m-portlet__head-text">
+												Статистика менеджера: {{selectedManager.name}}
+										</h3>
+								</div>
+						</div>
+						<div class="m-portlet__head-tools">
+								<div class="form-group">
+										<button @click="showdeals = !showdeals"
+										        :class="`btn m-btn m-btn--icon m-btn m-btn--custom mr-2 btn-${showdeals ? 'success' : 'brand'}`">
+												<i :class="`fa flaticon-${showdeals ? 'user' : 'share'}`"></i>
+												{{showdeals ? 'Менеджер' : 'Сделки'}}
+										</button>
+								</div>
+								<div class="form-group mr-3">
+										<select class="manager-profit-select" ref="managerSelect" v-model="manager"
+										        data-width="230px" data-live-search="true" title="Выберите менеджера">
+												<option v-for="(manager, key) in managers"
+												        :key="key"
+												        :value="manager.id"
+												        :data-content='`${manager.name} <span class="m-badge m-badge--wide m-badge--accent m--font-boldest">${manager.percent} %</span>`'
+												>{{manager.name}} ${manager.percent} %
+												</option>
+										</select>
+								</div>
+								<div class="form-group">
+										<select class="manager-profit-select" ref="yearSelect" v-model="dates.selected" data-width="100px">
+												<option :value="dates.start">{{dates.start}}</option>
+												<option :value="Number(dates.start) + Number(year)"
+												        v-for="(year, key) in (dates.end - dates.start)"
+												        :key="key">{{Number(dates.start) + Number(year)}}
+												</option>
+										</select>
+								</div>
+						</div>
+				</div>
+				<div ref="graphContainer" class="m-portlet__body position-relative">
+						<div class="m-widget21" style="min-height: 420px">
+								<transition name="fade">
+										<div class="row" v-if="showdeals && data">
+												<div class="col">
+														<div class="m-widget21__item m--pull-left">
                             <span class="m-widget21__icon">
                                 <a href="#"
                                    class="btn btn-warning m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                     <i class="fa flaticon-coins m--font-light m--font-light"></i>
                                 </a>
                             </span>
-                                <div class="m-widget21__info">
+																<div class="m-widget21__info">
                                 <span class="m-widget21__title">
                                     Общая
                                 </span><br>
-                                    <span class="m-widget21__sub">Общая сумма.</span>
-                                    <div class="m-widget21__number m--font-warning h6">{{month ? month : 'За год'}}</div>
-                                    <div class="m-widget21__number m--font-warning h1">{{prices.total !== null ?
-                                        prices.total :
-                                        calculatePrices(totalProfit) }} <span
-                                                v-html="$store.currencies.list[0].code"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="m-widget21__item m--pull-left">
+																		<span class="m-widget21__sub">Общая сумма.</span>
+																		<div class="m-widget21__number m--font-warning h6">{{month ? month : 'За год'}}
+																		</div>
+																		<div class="m-widget21__number m--font-warning h1">{{prices.total !== null ?
+																				prices.total :
+																				calculatePrices(totalProfit) }} <span
+																								v-html="$store.currencies.list[0].code"></span>
+																		</div>
+																</div>
+														</div>
+												</div>
+												<div class="col">
+														<div class="m-widget21__item m--pull-left">
                             <span class="m-widget21__icon">
                                 <a href="#"
                                    class="btn btn-accent m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                     <i class="fa flaticon-piggy-bank m--font-light m--font-light"></i>
                                 </a>
                             </span>
-                                <div class="m-widget21__info">
+																<div class="m-widget21__info">
                                 <span class="m-widget21__title">
                                     Оплаченные
                                 </span><br>
-                                    <span class="m-widget21__sub">Сумма оплаченных сделок.</span>
-                                    <div class="m-widget21__number m--font-accent h6">{{month ? month : 'За год'}}</div>
-                                    <div class="m-widget21__number m--font-accent h1">{{prices.paid !== null ? prices.paid :
-                                        calculatePrices(data.finished)}} <span
-                                                v-html="$store.currencies.list[0].code"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="m-widget21__item m--pull-right">
+																		<span class="m-widget21__sub">Сумма оплаченных сделок.</span>
+																		<div class="m-widget21__number m--font-accent h6">{{month ? month : 'За год'}}</div>
+																		<div class="m-widget21__number m--font-accent h1">{{prices.paid !== null ?
+																				prices.paid :
+																				calculatePrices(data.finished)}} <span
+																								v-html="$store.currencies.list[0].code"></span>
+																		</div>
+																</div>
+														</div>
+												</div>
+												<div class="col">
+														<div class="m-widget21__item m--pull-right">
                             <span class="m-widget21__icon">
                                 <a href="#"
                                    class="btn btn-danger m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                     <i class="fa flaticon-exclamation-1 m--font-light"></i>
                                 </a>
                             </span>
-                                <div class="m-widget21__info">
-                                    <span class="m-widget21__title">Неоплаченные</span><br>
-                                    <span class="m-widget21__sub">Сумма неоплаченных сделок.</span>
-                                    <div class="m-widget21__number m--font-danger h6">{{month ? month : 'За год'}}</div>
-                                    <div class="m-widget21__number m--font-danger h1">{{prices.notpaid !== null ?
-                                        prices.notpaid :
-                                        calculatePrices(data.notpaid)}} <span
-                                                v-html="$store.currencies.list[0].code"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" v-if="!showdeals && data">
-                        <div class="col">
-                            <div class="m-widget21__item">
+																<div class="m-widget21__info">
+																		<span class="m-widget21__title">Неоплаченные</span><br>
+																		<span class="m-widget21__sub">Сумма неоплаченных сделок.</span>
+																		<div class="m-widget21__number m--font-danger h6">{{month ? month : 'За год'}}</div>
+																		<div class="m-widget21__number m--font-danger h1">{{prices.notpaid !== null ?
+																				prices.notpaid :
+																				calculatePrices(data.notpaid)}} <span
+																								v-html="$store.currencies.list[0].code"></span>
+																		</div>
+																</div>
+														</div>
+												</div>
+										</div>
+										<div class="row" v-if="!showdeals && data">
+												<div class="col">
+														<div class="m-widget21__item">
                             <span class="m-widget21__icon">
                                 <a href="#"
                                    class="btn btn-success m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                     <i class="fa flaticon-user-ok m--font-light fa-2x"></i>
                                 </a>
                             </span>
-                                <div class="m-widget21__info">
-                                    <span class="m-widget21__title">{{selectedManager.name}}</span><br>
-                                    <div class="m-widget21__number m--font-success h4">{{month ? month : 'За год'}}</div>
-                                    <div class="m-widget21__number m--font-success h1 display-3">
-                                        {{prices.manager !== null ? prices.manager : calculatePrices(data.manager)}}
-                                        <span v-html="$store.currencies.list[0].code"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </transition>
-                <div class="m-widget21__chart m-portlet-fit--sides" style="height:310px;">
-                    <canvas ref="profitChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
+																<div class="m-widget21__info">
+																		<span class="m-widget21__title">{{selectedManager.name}}</span><br>
+																		<div class="m-widget21__number m--font-success h4">{{month ? month : 'За год'}}
+																		</div>
+																		<div class="m-widget21__number m--font-success h1 display-3">
+																				{{prices.manager !== null ? prices.manager : calculatePrices(data.manager)}}
+																				<span v-html="$store.currencies.list[0].code"></span>
+																		</div>
+																</div>
+														</div>
+												</div>
+										</div>
+								</transition>
+								<div class="m-widget21__chart m-portlet-fit--sides" style="height:310px;">
+										<canvas ref="profitChart"></canvas>
+								</div>
+						</div>
+				</div>
+		</div>
 </template>
 
 <script>
@@ -157,7 +160,7 @@
             },
             managers: [],
             manager: null,
-            showdeals:false
+            showdeals: false
         }),
 
         created() {
@@ -172,7 +175,7 @@
                 return this.managers.filter(i => i.id === this.manager)[0];
             },
             totalProfit() {
-                if(this.data) {
+                if (this.data) {
                     return this.data.finished.map((item, index) => {
                         return Number((item + this.data.notpaid[index]).toFixed(2));
                     });
@@ -310,7 +313,11 @@
             },
             getData() {
                 mApp.block(this.$refs.graphContainer, {});
-                axios.get(route('async.statistics.year',this.dates.selected) + '/' + this.manager).then(r => {
+                axios.get(route('async.statistics.year', {
+                    year: this.dates.selected,
+                    type: "closed",
+                    manager: this.manager
+                })).then(r => {
                     if (r.status === 200) {
                         this.data = r.data;
                         this.reloadChart();

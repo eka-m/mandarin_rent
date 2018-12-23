@@ -5,7 +5,7 @@
             <input type="text" ref="dealDates" class="form-control m-input dealDateInput m--font-brand"
                    placeholder="Нажмите чтобы выбрать">
             <input type="hidden" name="start" :value="deal.start">
-            <input type="hidden" name="finish" :value="deal.end">
+            <input type="hidden" name="end" :value="deal.end">
         </div>
     </div>
 </template>

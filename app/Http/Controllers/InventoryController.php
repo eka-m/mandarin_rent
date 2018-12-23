@@ -39,7 +39,7 @@ class InventoryController extends BaseController
 
     public function asyncSearch(Request $request)
     {
-        $result = $this->searchForItem($request->input('field'), $request->input('start'), $request->input('finish'));
+        $result = $this->searchForItem($request->input('field'), $request->input('start'), $request->input('end'));
         return response()->json(array_values($result->toArray()));
     }
 
@@ -54,7 +54,7 @@ class InventoryController extends BaseController
         $result = [];
         $deleted = [];
         foreach (json_decode($inputs['items']) as $item) {
-            $available = Inventory::withoutActiveDeals($inputs['start'], $inputs['finish'])->withoutDeal($inputs['deal'])->find($item->id);
+            $available = Inventory::withoutActiveDeals($inputs['start'], $inputs['end'])->withoutDeal($inputs['deal'])->find($item->id);
             if($available) {
                 $result[] = $item;
             } else {
@@ -102,7 +102,7 @@ class InventoryController extends BaseController
     public function show($id)
     {
         $item = Inventory::with('category')->findOrFail($id);
-        $deals = $item->deals()->whereYear('finish', Carbon::now()->year)->whereMonth('finish', Carbon::now()->month);
+        $deals = $item->deals()->whereYear('end', Carbon::now()->year)->whereMonth('end', Carbon::now()->month);
 
         $monthAllCount = $deals->count();
         $monthClientCount = $deals->whereDoesntHave('client', function ($query) {
@@ -124,7 +124,7 @@ class InventoryController extends BaseController
         //TODO Сделай статистику для товара
         $item = Inventory::with('category')->findOrFail($id);
 
-        $monthAll = $item->deals()->whereYear('finish', Carbon::now()->year)->whereMonth('finish', Carbon::now()->month);
+        $monthAll = $item->deals()->whereYear('end', Carbon::now()->year)->whereMonth('end', Carbon::now()->month);
         $monthAll = $result->whereDoesntHave('client', function ($query) {
             $query->where('status', 'staff');
         })->count();

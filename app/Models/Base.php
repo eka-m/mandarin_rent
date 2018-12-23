@@ -15,6 +15,6 @@ class Base extends Model
 
     public function scopeOverlapping($query, $from, $to)
     {
-        return $query->past('start', $to)->future('finish', $from);
+        return $query->past('start', $to)->future('end', $from);
     }
 }

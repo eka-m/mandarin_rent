@@ -24,17 +24,25 @@ class Client extends Base
 
     protected $fillable = ['first_name', 'last_name', 'father_name', 'status', 'description', 'deal_id', 'photos', 'slug', 'passport_serial','email','phone','client_id', 'adress'];
 
+    protected $appends = ['fullname'];
+
     public function contactface() {
         return $this->hasOne('App\Models\Client', 'id', 'client_id');
     }
 
     public function deals() {
-        return $this->hasMany('App\Models\Deal');
+        return $this->hasMany(Deal::class);
     }
 
     public function inventory() {
         return $this->hasManyDeep('App\Models\Inventory', ['App\Models\Deal','deal_inventory']);
     }
+
+    /** APPENDS */
+    public function getFullNameAttribute() {
+        return $this->first_name . ' ' . $this->last_name . ' ' . $this->father_name;
+    }
+    /** END APPENDS */
 
     public static function getStatuses() {
         return self::$statuses;

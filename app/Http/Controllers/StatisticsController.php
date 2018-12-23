@@ -14,46 +14,57 @@ class StatisticsController extends BaseController
         return view('statistics.home');
     }
 
-    public function showCalendar() {
+    public function showCalendar()
+    {
         return view('statistics.calendar');
     }
 
-    public function showManager() {
+    public function showManager()
+    {
         $managers = User::role('manager')->get()->toJson();
         return view('statistics.managers', compact('managers'));
     }
 
     public function profit($year, $type = 'closed', $manager = null)
     {
-        $dbResult = Deal::whereYear($type, $year)->withoutStaff()->onlyClosed()->manager($manager)->get();
+        $dbResult = Deal::whereYear($type, $year)
+            ->withoutStaff()
+            ->onlyClosed()
+            ->manager($manager)
+            ->get();
         $deals = $this->makeStatistics($dbResult, $type, 'price');
         if ($manager && isset($deals['finished'])) {
             $deals['manager'] = $this->calculateManagerProfit($dbResult);
         }
+        $deals['count'] = $this->calculateDeals($dbResult, $type);
         return response()->json($deals);
     }
 
-    public function generalProfit($year) {
-        $deals = Deal::whereYear('finish', $year)->withoutStaff()->status("finished")->orStatus('notpaid')->get();
-        $deals = $this->makeStatistics($deals,'finish', 'price');
-        return response()->json($deals);
-    }
-
-    public function makeStatistics($deals, $date, $sum) {
+    public function makeStatistics($deals, $date, $sum)
+    {
         $deals = $deals->groupBy('status');
-        if(!isset($deals['finished'])) {
+        if (!isset($deals['finished'])) {
             $deals['finished'] = collect([]);
         }
-        if(!isset($deals['notpaid'])) {
+        if (!isset($deals['notpaid'])) {
             $deals['notpaid'] = collect([]);
         }
-        $deals->transform(function ($item) use($date, $sum) {
+        $deals->transform(function ($item) use ($date, $sum) {
             $result = $this->groupByMonth($item, $date);
             $result = $this->calculateSums($result, $sum);
             $result = $this->createYearData($result)->values();
             return $result;
         });
         return $deals;
+    }
+
+    public function calculateDeals($deals, $type)
+    {
+        $deals = $this->groupByMonth($deals, $type);
+        $deals->transform(function ($item) {
+            return $item->count();
+        });
+        return $this->createYearData($deals)->values();
     }
 
     public function calculateManagerProfit($deals)
@@ -74,16 +85,29 @@ class StatisticsController extends BaseController
     public function calendar(Request $request)
     {
         $start = Carbon::parse($request->input('start'));
-        $finish = Carbon::parse($request->input('finish'));
+        $end = Carbon::parse($request->input('end'));
+        $type = $request->input('type');
 
-        $deals = Deal::with('client')
-            ->onlyClosed()
-            ->whereBetween('closed', [$start, $finish])
-            ->get();
-        return response()->json($this->createCalendarEvents($deals));
+        switch ($type){
+            case "deals":
+                $deals = Deal::with('client', 'items:inventory.id,inventory_code,name,model,rent')
+                    ->whereBetween('start', [$start, $end])
+                    ->get();
+                $result = $this->createCalendarEventsForDeals($deals);
+                return response()->json($result);
+                break;
+            case "profit":
+                $deals = Deal::with('client')
+                    ->onlyClosed()
+                    ->whereBetween('closed', [$start, $end])
+                    ->get();
+                return response()->json($this->createCalendarEventsForProfit($deals));
+                break;
+        }
+        return response()->json([]);
     }
 
-    public function createCalendarEvents($data)
+    public function createCalendarEventsForProfit($data)
     {
         $result = [];
         $data = $data->groupBy('status');
@@ -97,15 +121,33 @@ class StatisticsController extends BaseController
                 });
                 if ($deals->sum('price') > 0) {
                     $result[] = [
-                        "title" => round($deals->sum('price'),2),
+                        "title" => round($deals->sum('price'), 2) . ' ' . html_entity_decode(setting('currencies.list.0.code')),
                         "start" => $date,
                         "className" => $k == "finished" ? 'm-fc-event--solid-info' : 'm-fc-event--solid-danger',
+                        "textEscape" => false,
+                        "styles" => [
+                            "fontSize" => "18px",
+                            "cursor" => "pointer"
+                        ],
                         "deals" => $deals,
                     ];
                 }
             }
         }
         return $result;
+    }
+
+    public function createCalendarEventsForDeals($data){
+       return $data->transform(function ($item) {
+           $item->title = $item->client->fullname . ': ' . $item->hash;
+           $item->className = 'm-fc-event--solid-' . $item->statuses[$item->status]['class'];
+
+           $item->styles = [
+              "fontSize" => "10px",
+               "cursor" => "pointer"
+           ];
+           return $item;
+        });
     }
 
     public function createYearData($data)

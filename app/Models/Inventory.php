@@ -13,7 +13,7 @@ class Inventory extends Base
 //    use Cachable;
     use SoftDeletes;
     protected $table = 'inventory';
-    protected $appends = ['small_image'];
+    protected $appends = ['small_image', 'cost'];
     protected $fillable = [
         'category_id',
         'inventory_code',
@@ -68,7 +68,6 @@ class Inventory extends Base
         $finish = Carbon::parse($finish);
         return $query->whereDoesntHave('deals', function ($query) use ($start, $finish) {
             $query->overlapping($start, $finish)->whereNull("closed");
-//            $query->where('start', '<=', $finish)->where('finish', '>=', $start);
         });
     }
 
@@ -118,6 +117,14 @@ class Inventory extends Base
         return null;
     }
 
+    public function getCostAttribute() {
+        $type = [
+          "hour" => "Час",
+          "day" => "День"
+        ];
+        return round($this->rent['price'],2) . ' ' .html_entity_decode(setting('currencies.list.0.code')) . ' / ' . $type[$this->rent['per']];
+    }
+
     public function setPhotosAttribute($value)
     {
         $photos = json_decode($value);
@@ -132,7 +139,7 @@ class Inventory extends Base
     public function setRentData($deal)
     {
 
-        $dealHours = Carbon::parse($deal->start)->diffInHours($deal->finish, false);
+        $dealHours = Carbon::parse($deal->start)->diffInHours($deal->end, false);
 
         $itemPriceInHour = $this->rent['per'] == 'hour' ? $this->rent['price'] : $this->rent['price'] / 24;
 
