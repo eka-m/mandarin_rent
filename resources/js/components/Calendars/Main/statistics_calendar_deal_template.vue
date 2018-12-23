@@ -43,6 +43,9 @@
     export default {
 		    name:"DealTemplate",
 		    props:["deal"],
+		    created(){
+		      console.log('ee');
+		    },
 		    methods:{
 		        makeDate(date) {
 		            return moment(date).format('DD MMMM YYYY');
