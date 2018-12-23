@@ -34,7 +34,7 @@
 							@include('partials.quick-actions-bar')
 							@include('partials.searchbar')
 							@include('partials.user-bar')
-							@include('partials.quick-nav-bar')
+							{{--@include('partials.quick-nav-bar')--}}
 						</ul>
 					</div>
 				</div>
