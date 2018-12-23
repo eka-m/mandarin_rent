@@ -142,7 +142,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         makeClientName: function makeClientName(client) {
-            return '\n                ' + client.first_name + '\n                ' + (client.last_name !== null ? client.last_name : '') + '\n                ' + (client.father_name !== null ? client.father_name : '') + '\n                ' + (client.phone !== null ? '| ' + client.phone : '') + '\n                ';
+            return '\n                ' + client.fullname + '\n                ' + (client.phone ? '| ' + client.phone : '') + '\n                ';
         }
     }
 });
@@ -329,10 +329,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             deal_id: 0,
             items: [],
             statuses: {},
-            per: {
-                day: "День",
-                hour: "Час"
-            },
             input: null
         };
     },
@@ -396,7 +392,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     wildcard: "%QUERY",
                     prepare: function prepare(query, settings) {
                         settings.type = "POST";
-                        settings.data = { field: query, start: self.deal.start, finish: self.deal.end };
+                        settings.data = { field: query, start: self.deal.start, end: self.deal.end };
                         return settings;
                     }
                 }
@@ -412,7 +408,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         templateResult: function templateResult(item) {
-            return $('<div>\n                    <span class="m-badge m-badge--wide m-badge--info m--font-bold">\u2116' + item.inventory_code + '</span>\n                    <span class="m-badge m-badge--wide m-badge--' + this.statuses[item.status].class + ' m--font-bold"> ' + this.statuses[item.status].title + '</span>\n                     ' + item.name + ' ' + (item.model ? item.model : '') + '\n                    <span class="m--font-brand m--font-bold">\n                        <small> ' + item.rent.price + '  ' + this.$store.currencies.list[0].code + ' / ' + this.per[item.rent.per] + '</small>\n                    </span>\n                    </div>');
+            return $('<div>\n                    <span class="m-badge m-badge--wide m-badge--info m--font-bold">\u2116' + item.inventory_code + '</span>\n                    <span class="m-badge m-badge--wide m-badge--' + this.statuses[item.status].class + ' m--font-bold"> ' + this.statuses[item.status].title + '</span>\n                     ' + item.name + ' ' + (item.model ? item.model : '') + '\n                    <span class="m--font-brand m--font-bold">\n                        <small>' + item.cost + '</small>\n                    </span>\n                    </div>');
         },
         getItems: function getItems() {
             var _this2 = this;
@@ -422,7 +418,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     deal: this.deal_id,
                     items: JSON.stringify(this.items),
                     start: this.deal.start,
-                    finish: this.deal.end
+                    end: this.deal.end
                 })).then(function (r) {
                     _this2.items = r.data.items;
                     _this2.showInfo(r.data.deleted);
@@ -545,17 +541,7 @@ var render = function() {
                     _c(
                       "span",
                       { staticClass: "m-badge m-badge--wide m-badge--warning" },
-                      [
-                        _vm._v(_vm._s(item.rent.price) + " "),
-                        _c("span", {
-                          domProps: {
-                            innerHTML: _vm._s(
-                              _vm.$store.currencies.list[0].code
-                            )
-                          }
-                        }),
-                        _vm._v(" / " + _vm._s(_vm.per[item.rent.per]))
-                      ]
+                      [_vm._v(_vm._s(item.cost))]
                     )
                   ]),
                   _vm._v(" "),
@@ -664,14 +650,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: ['propStart', 'propEnd'],
     store: ['deal'],
     mounted: function mounted() {
-        this.init();
         if (this.propStart && this.propEnd) {
-            this.deal.start = this.propStart;
-            this.deal.end = this.propEnd;
+            this.deal.start = moment(this.propStart).format("YYYY-MM-DD HH:mm");
+            this.deal.end = moment(this.propEnd).format("YYYY-MM-DD HH:mm");
         } else {
             this.deal.start = moment().format("YYYY-MM-DD HH:mm");
             this.deal.end = moment().add(1, 'days').format("YYYY-MM-DD HH:mm");
         }
+        this.init();
     },
 
     watch: {
@@ -694,8 +680,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 firstDay: 1,
                 autoApply: true,
                 autoUpdateInput: true,
-                startDate: this.start,
-                endDate: this.end,
+                startDate: this.deal.start,
+                endDate: this.deal.end,
                 // minDate: moment(),
                 // parentEl:$('.m-wizard__form'),
                 // drops:"down",
@@ -807,7 +793,7 @@ exports = module.exports = __webpack_require__(77)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -820,6 +806,8 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__calculations__ = __webpack_require__(299);
+//
+//
 //
 //
 //
@@ -936,10 +924,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     created: function created() {
-        this.currentDeal = this.propDeal ? JSON.parse(this.propDeal) : {};
+        if (this.propDeal) {
+            this.currentDeal = JSON.parse(this.propDeal);
+            this.sale = this.currentDeal.sale;
+        }
     },
     mounted: function mounted() {
         mApp.initTooltips();
+    },
+
+    methods: {
+        showInput: function showInput(input) {
+            this[input] = !this[input];
+        }
     }
 });
 
@@ -1101,7 +1098,7 @@ var render = function() {
                               "font-size": "26px",
                               "font-weight": "bold"
                             },
-                            attrs: { type: "text" },
+                            attrs: { type: "text", id: "saleInput" },
                             domProps: { value: _vm.sale },
                             on: {
                               input: [
@@ -1128,7 +1125,7 @@ var render = function() {
                           staticClass: "cursor-pointer",
                           on: {
                             click: function($event) {
-                              _vm.saleInput = !_vm.saleInput
+                              _vm.showInput("saleInput")
                             }
                           }
                         },
@@ -1183,7 +1180,7 @@ var render = function() {
                               "font-size": "26px",
                               "font-weight": "bold"
                             },
-                            attrs: { type: "text" },
+                            attrs: { type: "text", id: "priceInput" },
                             domProps: { value: _vm.totalPrice },
                             on: {
                               input: [
@@ -1207,7 +1204,7 @@ var render = function() {
                           staticClass: "cursor-pointer",
                           on: {
                             click: function($event) {
-                              _vm.priceInput = !_vm.priceInput
+                              _vm.showInput("priceInput")
                             }
                           }
                         },

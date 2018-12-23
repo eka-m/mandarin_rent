@@ -672,16 +672,6 @@ var columnDefs = {
                     return "Изаброжения отсутствуют";
                 }
             }, {
-                targets: 5,
-                title: 'Цена',
-                render: function render(data, type, row, meta) {
-                    var per = {
-                        day: "Д",
-                        hour: "Ч"
-                    };
-                    return row.rent.price + " AZN /" + per[row.rent.per];
-                }
-            }, {
                 targets: 6,
                 title: 'Категория',
                 orderable: false,
@@ -708,7 +698,7 @@ var columnDefs = {
 var columns = {
     data: function data() {
         return {
-            columns: [{ data: 'id', name: 'id', width: "5%" }, { data: 'inventory_code', name: 'inventory_code', width: "5%" }, { data: 'name', name: 'name' }, { data: 'model', name: 'model', title: "Модель" }, { data: 'photos', width: "10%", className: "text-center" }, { data: 'rent', name: 'rent', orderable: false, searchable: false }, { data: 'category', name: 'category.name', width: "13%", className: "text-center " }, { data: 'status', name: 'status', className: "text-center" }, { data: 'actions', orderable: false, searchable: false }]
+            columns: [{ data: 'id', name: 'id', width: "5%" }, { data: 'inventory_code', name: 'inventory_code', width: "5%" }, { data: 'name', name: 'name' }, { data: 'model', name: 'model', title: "Модель" }, { data: 'photos', width: "10%", className: "text-center" }, { data: 'cost', name: 'cost', orderable: false, searchable: false }, { data: 'category', name: 'category.name', width: "13%", className: "text-center " }, { data: 'status', name: 'status', className: "text-center" }, { data: 'actions', orderable: false, searchable: false }]
         };
     }
 };

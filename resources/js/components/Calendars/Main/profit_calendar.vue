@@ -46,7 +46,7 @@
         data: () => ({
             calendar: null,
             data: null,
-            type: 'deals'
+            type: 'profit'
         }),
         watch: {
             type() {

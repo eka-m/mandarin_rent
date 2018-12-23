@@ -3,7 +3,7 @@
 				<filters :table="table" :prop-statuses="statuses"></filters>
 				<ModalCompleteDeal :table="table" :url="actionsUrl"></ModalCompleteDeal>
 				<div class="position-relative">
-						<table class="table table-striped table-bordered table-hover table-checkable" ref="dealsTable">
+						<table class="table table-bordered table-hover table-checkable" ref="dealsTable">
 								<thead>
 								<tr>
 										<th>ИД</th>

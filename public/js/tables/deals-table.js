@@ -1512,7 +1512,7 @@ var columns = [{ data: 'id', name: 'id', width: "5%" }, { data: 'hash', name: 'h
 var columnDefs = [{
     targets: 1,
     render: function render(data, type, row, meta) {
-        return '<a href="/deals/' + row.id + '" data-toggle="m-tooltip" \n                        data-placement="top" \n                        data-html="true"\n                        data-skin="light"\n                        data-original-title=\'\u0426\u0435\u043D\u0430: ' + row.price + '\'>' + row.hash + '</a> ';
+        return '<a href="' + route('deals.show', row.id) + '" data-toggle="m-tooltip" \n                        data-placement="top" \n                        data-html="true"\n                        data-skin="dark"\n                        data-original-title=\'<span class="text-white">\u0421\u0442\u043E\u0438\u043C\u043E\u0441\u0442\u044C: ' + row.cost + '<span>\'>' + row.hash + '</a> ';
     }
 }, {
     targets: 2,
@@ -1520,8 +1520,8 @@ var columnDefs = [{
         if (Object.keys(data).length === 0) {
             return "Клиент отсутвует";
         }
-        var status = '<span class="m-badge m-badge--' + data.statuses[data.status].class + ' m-badge--wide">' + data.statuses[data.status].title + '</span>';
-        return '\n                        <a href="/clients/' + data.id + '" \n                        target="_blank"\n                        data-toggle="m-tooltip" \n                        data-placement="top" \n                        data-html="true"\n                        data-skin="light"\n                        data-original-title=\'' + status + '\'>\n                        ' + data.name + '\n                        </a>';
+        var status = '<span class="m-badge text-white m-badge--' + data.statuses[data.status].class + ' m-badge--wide">' + data.statuses[data.status].title + '</span>';
+        return '\n                        <a href="' + route('clients.show', data.id) + '" \n                        target="_blank"\n                        data-toggle="m-tooltip" \n                        data-placement="top" \n                        data-html="true"\n                        data-skin="dark"\n                        data-original-title=\'' + status + '\'>\n                        ' + data.name + '\n                        </a>';
     }
 }, {
     targets: 3,
@@ -1531,24 +1531,24 @@ var columnDefs = [{
         }
         var items = "";
         for (var item in data) {
-            items += '<a href="/inventory/' + data[item]["id"] + '" target="_blank"\n\t\t\t\t\t\tdata-toggle="m-tooltip" \n\t\t\t\t\t\tdata-placement="top" \n\t\t\t\t\t\tdata-html="true"\n\t\t\t\t\t\tdata-skin="light"\n\t\t\t\t\t\tdata-original-title=\'<span class="m-badge m-badge--wide m-badge--info">' + data[item]["inventory_code"] + '</span> ' + (data[item]["model"] ? data[item]["model"] : "") + '\'>' + data[item]["name"] + '\n\t\t\t\t\t\t</a> ';
+            items += '<a href="' + route('inventory.show', data[item]["id"]) + '" target="_blank"\n\t\t\t\t\t\tdata-toggle="m-tooltip" \n\t\t\t\t\t\tdata-placement="top" \n\t\t\t\t\t\tdata-html="true"\n\t\t\t\t\t\tdata-skin="dark"\n\t\t\t\t\t\tdata-original-title=\'<span class="m-badge m-badge--wide m-badge--info text-white">\u2116' + data[item]["inventory_code"] + '</span> ' + (data[item]["model"] ? data[item]["model"] : "") + '\'>' + data[item]["name"] + '\n\t\t\t\t\t\t</a> ';
         }
         return items;
     }
 }, {
     targets: 4,
     render: function render(data, type, row, meta) {
-        return '<a href="javascript:void(0)" data-toggle="m-tooltip" \n\t\t\t\t\tdata-placement="top" \n\t\t\t\t\tdata-html="true"\n\t\t\t\t\tdata-skin="dark"\n\t\t\t\t\tdata-original-title=\'\u041D\u0430\u0447\u0430\u043B\u043E <br/> ' + moment(row.start).format("DD MMM YYYY / HH:mm") + '\'>\n                        ' + moment(data).format("DD MMM YYYY / HH:mm") + '\n                    </a> ';
+        return '<a href="javascript:void(0)" data-toggle="m-tooltip" \n\t\t\t\t\tdata-placement="top" \n\t\t\t\t\tdata-html="true"\n\t\t\t\t\tdata-skin="dark"\n\t\t\t\t\tdata-original-title=\'<span class="m-font--boldest text-white">\u041D\u0430\u0447\u0430\u043B\u043E <br/> ' + moment(row.start).format("DD MMM YYYY  HH:mm") + '</span>\'>\n                        <span class="m-font--boldest">' + moment(data).format("DD MMM YYYY  HH:mm") + '</span>\n                    </a> ';
     }
 }, {
     targets: 5,
     render: function render(data, type, row, meta) {
-        return '<span class="m-badge m-badge--wide m-badge--' + row.statuses[data].class + '">' + row.statuses[data].title + '</span>';
+        return '<span class="m-badge m-badge--wide m--font-boldest m-badge--' + row.statuses[data].class + '">' + row.statuses[data].title + '</span>';
     }
 }, {
     targets: -2,
     render: function render(data, type, row, meta) {
-        return '<a href="javascript:;" target="_blank"\n                    data-toggle="m-tooltip"\n                    data-placement="top"\n                    data-html="true"\n                    data-skin="light"\n                    data-original-title=\'<span class="m-badge m-badge--wide m-badge--info"\n                    >' + row.manager_profit + ' ' + (row.manager_profit_type === 'percent' ? '%' : Vue.$store.currencies.list[0].code) + '</span>\'>\n                        ' + row.manager.name + '\n                        </a>';
+        return '<a href="javascript:;" target="_blank"\n                    data-toggle="m-tooltip"\n                    data-placement="top"\n                    data-html="true"\n                    data-skin="light"\n                    data-original-title=\'<span class="m-badge m-badge--wide m-badge--info m-font--boldest"\n                    >' + (row.manager_profit ? row.manager_profit : 0) + ' ' + (row.manager_profit_type === 'percent' ? '%' : Vue.$store.currencies.list[0].code) + '</span>\'>\n                        ' + row.manager.name + '\n                        </a>';
     }
 }, {
     targets: -1,
@@ -1584,8 +1584,7 @@ var render = function() {
           "table",
           {
             ref: "dealsTable",
-            staticClass:
-              "table table-striped table-bordered table-hover table-checkable"
+            staticClass: "table table-bordered table-hover table-checkable"
           },
           [
             _c("thead", [

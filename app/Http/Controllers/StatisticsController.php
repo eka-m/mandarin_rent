@@ -92,6 +92,7 @@ class StatisticsController extends BaseController
             case "deals":
                 $deals = Deal::with('client', 'items:inventory.id,inventory_code,name,model,rent')
                     ->whereBetween('start', [$start, $end])
+                    ->orderBy('start', 'DESC')
                     ->get();
                 $result = $this->createCalendarEventsForDeals($deals);
                 return response()->json($result);

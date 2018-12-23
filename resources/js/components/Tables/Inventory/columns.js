@@ -21,17 +21,6 @@ export const columnDefs = {
                 },
             },
             {
-                targets: 5,
-                title: 'Цена',
-                render: function (data, type, row, meta) {
-                    const per = {
-                        day: "Д",
-                        hour: "Ч"
-                    };
-                    return row.rent.price + " AZN /" + per[row.rent.per];
-                }
-            },
-            {
                 targets: 6,
                 title: 'Категория',
                 orderable: false,
@@ -67,7 +56,7 @@ export const columns = {
             {data: 'name', name: 'name'},
             {data: 'model', name: 'model', title:"Модель"},
             {data: 'photos', width: "10%", className:"text-center"},
-            {data: 'rent', name: 'rent',  orderable: false, searchable: false},
+            {data: 'cost', name: 'cost',  orderable: false, searchable: false},
             {data: 'category', name: 'category.name', width: "13%", className: "text-center "},
             {data: 'status', name: 'status', className: "text-center"},
             {data: 'actions', orderable: false, searchable: false},

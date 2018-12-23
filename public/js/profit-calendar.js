@@ -27761,7 +27761,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             calendar: null,
             data: null,
-            type: 'deals'
+            type: 'profit'
         };
     },
     watch: {

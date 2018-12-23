@@ -35,7 +35,7 @@ exports = module.exports = __webpack_require__(77)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -105,11 +105,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             deal: null,
             type: null,
             profit: 0
-
         };
     },
     created: function created() {
-        this.type = "percent";
         this.deal = this.propDeal ? JSON.parse(this.propDeal) : null;
         if (this.deal) {
             this.type = this.deal.manager_profit_type;

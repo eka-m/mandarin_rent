@@ -52,7 +52,7 @@ class DealObserver
     }
 
     public function saving(Deal $deal) {
-
+        //TODO Перенеести функцию "setDealStatus" сюда
     }
 
     /**

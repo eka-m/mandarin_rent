@@ -17,7 +17,7 @@
                     <span :class="'m-badge m-badge--wide m-badge--'+statuses[item.status].class">{{statuses[item.status].title}}</span>&nbsp;
                     <a :href="route('inventory.show', item)" target="_blank" class="m-link m--font-bolder">{{item.name}}
                         {{item.model}}</a>
-                    <span class="m-badge m-badge--wide m-badge--warning">{{item.rent.price}} <span v-html="$store.currencies.list[0].code"></span> / {{per[item.rent.per]}}</span>
+                    <span class="m-badge m-badge--wide m-badge--warning">{{item.cost}}</span>
                 </div>
                 <button class="btn m-btn m-btn--icon m-btn--icon-only btn-danger btn-sm m-btn--pill" @click.prevent="items.splice(key,1)"><i class="la la-trash"></i></button>
             </div>
@@ -35,10 +35,6 @@
             deal_id:0,
             items: [],
             statuses: {},
-            per: {
-                day: "День",
-                hour: "Час"
-            },
             input: null,
         }),
         computed: {
@@ -100,7 +96,7 @@
                         wildcard: "%QUERY",
                         prepare(query,settings) {
                             settings.type = "POST";
-                            settings.data = {field:query, start:self.deal.start, finish:self.deal.end};
+                            settings.data = {field:query, start:self.deal.start, end:self.deal.end};
                             return settings;
                         },
                     },
@@ -119,7 +115,7 @@
                         <span class="m-badge m-badge--wide m-badge--${this.statuses[item.status].class} m--font-bold"> ${this.statuses[item.status].title}</span>
                          ${item.name} ${item.model ? item.model : ''}
                         <span class="m--font-brand m--font-bold">
-                            <small> ${item.rent.price}  ${this.$store.currencies.list[0].code} / ${this.per[item.rent.per]}</small>
+                            <small>${item.cost}</small>
                         </span>
                         </div>`);
             },
@@ -129,7 +125,7 @@
                         deal: this.deal_id,
                         items: JSON.stringify(this.items),
                         start: this.deal.start,
-                        finish: this.deal.end
+                        end: this.deal.end
                     })).then(r => {
                         this.items = r.data.items;
                         this.showInfo(r.data.deleted);

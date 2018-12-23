@@ -95,10 +95,8 @@
             },
             makeClientName(client) {
                 return `
-                    ${client.first_name}
-                    ${client.last_name !== null ? client.last_name : ''}
-                    ${client.father_name !== null ? client.father_name : ''}
-                    ${client.phone !== null ? '| ' + client.phone : ''}
+                    ${client.fullname}
+                    ${client.phone ? '| ' + client.phone : ''}
                     `;
             }
         }

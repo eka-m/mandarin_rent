@@ -21,11 +21,11 @@ const columnDefs = [
     {
         targets: 1,
         render(data, type, row, meta) {
-            return `<a href="/deals/${row.id}" data-toggle="m-tooltip" 
+            return `<a href="${route('deals.show', row.id)}" data-toggle="m-tooltip" 
                         data-placement="top" 
                         data-html="true"
-                        data-skin="light"
-                        data-original-title='Цена: ${row.price}'>${row.hash}</a> `;
+                        data-skin="dark"
+                        data-original-title='<span class="text-white">Стоимость: ${row.cost}<span>'>${row.hash}</a> `;
         }
     },
     {
@@ -34,14 +34,14 @@ const columnDefs = [
             if (Object.keys(data).length === 0) {
                 return "Клиент отсутвует";
             }
-            const status = `<span class="m-badge m-badge--${data.statuses[data.status].class} m-badge--wide">${data.statuses[data.status].title}</span>`;
+            const status = `<span class="m-badge text-white m-badge--${data.statuses[data.status].class} m-badge--wide">${data.statuses[data.status].title}</span>`;
             return `
-                        <a href="/clients/${data.id}" 
+                        <a href="${route('clients.show', data.id)}" 
                         target="_blank"
                         data-toggle="m-tooltip" 
                         data-placement="top" 
                         data-html="true"
-                        data-skin="light"
+                        data-skin="dark"
                         data-original-title='${status}'>
                         ${data.name}
                         </a>`;
@@ -56,12 +56,12 @@ const columnDefs = [
             let items = "";
             for (let item in data) {
                 items +=
-                    `<a href="/inventory/${data[item]["id"]}" target="_blank"
+                    `<a href="${route('inventory.show',data[item]["id"])}" target="_blank"
 						data-toggle="m-tooltip" 
 						data-placement="top" 
 						data-html="true"
-						data-skin="light"
-						data-original-title='<span class="m-badge m-badge--wide m-badge--info">${data[item]["inventory_code"]}</span> ${data[item]["model"] ? data[item]["model"] : ""}'>${data[item]["name"]}
+						data-skin="dark"
+						data-original-title='<span class="m-badge m-badge--wide m-badge--info text-white">№${data[item]["inventory_code"]}</span> ${data[item]["model"] ? data[item]["model"] : ""}'>${data[item]["name"]}
 						</a> `;
             }
             return items;
@@ -74,15 +74,15 @@ const columnDefs = [
 					data-placement="top" 
 					data-html="true"
 					data-skin="dark"
-					data-original-title='Начало <br/> ${moment(row.start).format("DD MMM YYYY / HH:mm")}'>
-                        ${moment(data).format("DD MMM YYYY / HH:mm")}
+					data-original-title='<span class="m-font--boldest text-white">Начало <br/> ${moment(row.start).format("DD MMM YYYY  HH:mm")}</span>'>
+                        <span class="m-font--boldest">${moment(data).format("DD MMM YYYY  HH:mm")}</span>
                     </a> `;
         }
     },
     {
         targets: 5,
         render(data, type, row, meta) {
-            return `<span class="m-badge m-badge--wide m-badge--${row.statuses[data].class}">${row.statuses[data].title}</span>`;
+            return `<span class="m-badge m-badge--wide m--font-boldest m-badge--${row.statuses[data].class}">${row.statuses[data].title}</span>`;
 
         }
     },
@@ -94,8 +94,8 @@ const columnDefs = [
                     data-placement="top"
                     data-html="true"
                     data-skin="light"
-                    data-original-title='<span class="m-badge m-badge--wide m-badge--info"
-                    >${row.manager_profit} ${row.manager_profit_type === 'percent' ? '%' : Vue.$store.currencies.list[0].code}</span>'>
+                    data-original-title='<span class="m-badge m-badge--wide m-badge--info m-font--boldest"
+                    >${row.manager_profit ? row.manager_profit : 0} ${row.manager_profit_type === 'percent' ? '%' : Vue.$store.currencies.list[0].code}</span>'>
                         ${row.manager.name}
                         </a>`;
         }

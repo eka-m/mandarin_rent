@@ -3,7 +3,7 @@
         <div class="form-group m-form-group mb-3">
             <label class="form-control-label">Выберите диапазон дат</label>
             <input type="text" ref="dealDates" class="form-control m-input dealDateInput m--font-brand"
-                   placeholder="Нажмите чтобы выбрать">
+                   placeholder="Нажмите чтобы выбрать" >
             <input type="hidden" name="start" :value="deal.start">
             <input type="hidden" name="end" :value="deal.end">
         </div>
@@ -16,15 +16,14 @@
         props: ['propStart', 'propEnd'],
         store: ['deal'],
         mounted() {
-            this.init();
             if (this.propStart && this.propEnd) {
-                this.deal.start = this.propStart;
-                this.deal.end = this.propEnd;
+                this.deal.start = moment(this.propStart).format("YYYY-MM-DD HH:mm");
+                this.deal.end = moment(this.propEnd).format("YYYY-MM-DD HH:mm");
             } else {
                 this.deal.start = moment().format("YYYY-MM-DD HH:mm");
                 this.deal.end = moment().add(1, 'days').format("YYYY-MM-DD HH:mm");
             }
-
+            this.init();
         },
         watch: {
             "deal.end"() {
@@ -44,8 +43,8 @@
                         firstDay: 1,
                         autoApply: true,
                         autoUpdateInput: true,
-                        startDate: this.start,
-                        endDate: this.end,
+                        startDate: this.deal.start,
+                        endDate: this.deal.end,
                         // minDate: moment(),
                         // parentEl:$('.m-wizard__form'),
                         // drops:"down",

@@ -27,7 +27,7 @@ class DealsController extends BaseController
 
     public function getDeals()
     {
-        $deal = Deal::with('client:id,first_name,last_name,father_name,status', 'items:inventory.id,name,model,inventory_code', 'manager:id,name');
+        $deal = Deal::with('client:id,first_name,last_name,father_name,status', 'items:inventory.id,name,model,inventory_code,rent', 'manager:id,name');
         $clientStatuses = Client::getStatuses();
         $statuses = Deal::getStatuses();
         return datatables()->eloquent($deal)
@@ -53,6 +53,12 @@ class DealsController extends BaseController
     public function create()
     {
         $item = new Deal();
+        $item->fill([
+           "manager_profit" => auth()->user()->hasRole('root') ? 0 : auth()->user()->percent,
+            "manager_profit_type" => "percent",
+            "autoactivation" => 1
+        ]);
+        $item->manager = auth()->user();
         $clientstatuses = Client::getStatuses();
         $inventorytstatuses = Inventory::getStatuses();
         return view('deals.create', compact('item', 'clientstatuses', 'inventorytstatuses'));
@@ -67,8 +73,8 @@ class DealsController extends BaseController
     public function store(Request $request)
     {
         $deal = $request->all();
-        $deal = $this->setStatus($deal);
-        $itemStatus = $deal['status'] == 'active' ? 'onRent' : 'pending';
+        $deal = $this->setDealStatus($deal);
+        $itemStatus = Inventory::setStatus($deal['status']);
         $items = json_decode($request['items'], true);
         $dealModel = Deal::create($deal);
         $dealModel->items()->attach($items);
@@ -110,6 +116,7 @@ class DealsController extends BaseController
             'client:id,first_name,last_name,father_name,status',
             'manager:id,name,percent')
             ->findOrFail($id);
+
         return view('deals.edit', compact('item', 'inventorytstatuses', 'clientstatuses'));
     }
 
@@ -124,8 +131,12 @@ class DealsController extends BaseController
     {
         $deal = Deal::findOrFail($id);
         $data = $request->all();
-        $data = $this->setStatus($data);
-        $itemStatus = $deal['status'] == 'active' ? 'onRent' : 'pending';
+        if(Carbon::parse($data['start'])->notEqualTo($deal->start) || Carbon::parse($data['end'])->notEqualTo($deal->end)) {
+            $data = $this->setDealStatus($data);
+        }
+
+        $itemStatus = Inventory::setStatus($data['status']);
+
         $items = json_decode($data['items']);
 
         foreach ($deal->items as $item) {
@@ -144,6 +155,18 @@ class DealsController extends BaseController
     }
 
 
+    public function setDealStatus($deal)
+    {
+        $deal['status'] = !$deal['autoactivation'] ? 'planned' : 'waiting';
+        if (Carbon::parse($deal['start'])->lessThanOrEqualTo(Carbon::now())) {
+            $deal['status'] = 'active';
+        }
+        if (Carbon::parse($deal['end'])->lessThanOrEqualTo(Carbon::now())) {
+            $deal['status'] = 'islate';
+        }
+        return $deal;
+    }
+
     public function closeDeal(Request $request, $id)
     {
         try {
@@ -158,19 +181,6 @@ class DealsController extends BaseController
         } catch (\Exception $e) {
             return response()->json('Ооооопс... Что-то пошло не так.', 500);
         }
-    }
-
-
-    public function setStatus($deal)
-    {
-        $deal['status'] = !$deal['autoactivation'] ? 'planned' : 'waiting';
-        if (Carbon::parse($deal['start'])->lessThanOrEqualTo(Carbon::now())) {
-            $deal['status'] = 'active';
-        }
-        if (Carbon::parse($deal['end'])->lessThanOrEqualTo(Carbon::now())) {
-            $deal['status'] = 'islate';
-        }
-        return $deal;
     }
 
     public static function checkExpirations()

@@ -22,12 +22,13 @@
                                     <div class="m-input-icon m-input-icon--right" v-if="saleInput">
                                           <input type="text"
                                                  class="form-control m-input bg-transparent"
+                                                 id="saleInput"
                                                  style="font-size: 26px; font-weight: bold;"
                                                  v-model.trim="sale"
                                                  @input="total()"
                                           >
                                     </div>
-                                    <span v-else @click="saleInput = !saleInput"
+                                    <span v-else @click="showInput('saleInput')"
                                           class="cursor-pointer">{{sale}} %</span>
                                 </span>
                         <div class="m--space-10"></div>
@@ -42,12 +43,13 @@
                                     <div class="m-input-icon m-input-icon--right" v-if="priceInput">
                                           <input type="text"
                                                  class="form-control m-input bg-transparent"
+                                                 id="priceInput"
                                                  style="font-size: 26px; font-weight: bold;"
                                                  v-model="totalPrice"
                                                  @input="calculateSale($event)"
                                           >
                                     </div>
-                                    <span v-else @click="priceInput = !priceInput"
+                                    <span v-else @click="showInput('priceInput')"
                                           class="cursor-pointer"> {{totalPrice}}
                                         <small><span v-html="$store.currencies.list[0].code"></span></small>
                                     </span>
@@ -112,10 +114,18 @@
             }
         },
         created() {
-            this.currentDeal = this.propDeal ? JSON.parse(this.propDeal) : {};
+            if(this.propDeal) {
+                this.currentDeal = JSON.parse(this.propDeal);
+                this.sale = this.currentDeal.sale;
+            }
         },
         mounted() {
             mApp.initTooltips();
+        },
+        methods:{
+            showInput(input) {
+                this[input] = !this[input];
+            }
         }
     }
 </script>

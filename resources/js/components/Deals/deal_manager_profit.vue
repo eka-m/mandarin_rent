@@ -40,7 +40,7 @@
 														v-html="$store.currencies.list[0].code"></i></span></span>
 								</div>
 						</div>
-						<input type="hidden" name="manager_profit"  class="form-control m-input--solid" v-else v-model="profit">
+						<input type="hidden" name="manager_profit" class="form-control m-input--solid" v-else v-model="profit">
 				</transition>
 
 		</div>
@@ -52,13 +52,11 @@
         name: "DealManagerProfit",
         props: ['propDeal'],
         data: () => ({
-            deal:null,
+            deal: null,
             type: null,
             profit: 0,
-
         }),
-        created () {
-            this.type = "percent";
+        created() {
             this.deal = this.propDeal ? JSON.parse(this.propDeal) : null;
             if (this.deal) {
                 this.type = this.deal.manager_profit_type;
@@ -70,7 +68,7 @@
             type(value, oldvalue) {
                 let val = this.profit;
                 let mprofit = this.$user.percent;
-                if(oldvalue === 'percent') {
+                if (oldvalue === 'percent') {
                     val = 0;
                 }
                 if (this.deal && this.$user.role('root')) {

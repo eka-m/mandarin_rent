@@ -81,7 +81,7 @@
           <div class="row">
             <div class="col-md-8 offset-md-2">
               <deal-dates prop-start="{{$item->start}}"
-                          prop-end="{{$item->finish}}"></deal-dates>
+                          prop-end="{{$item->end}}"></deal-dates>
             </div>
           </div>
         </div>
@@ -120,8 +120,9 @@
                               data-off-text="Выкл"
                               data-on-color="success"
                               data-off-color="metal">
-                      <input type="hidden" name="autoactivation" data-val="{{$item->autoactivation or 1}}">
+                      <input type="hidden" name="autoactivation" data-val="{{$item->autoactivation}}">
                     </div>
+                    <input type="hidden" name="status" value="{{$item->status}}">
                   </div>
                 </div>
               </div>

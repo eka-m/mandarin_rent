@@ -62,12 +62,12 @@ class Inventory extends Base
             ->whereNull('deal_inventory.deleted_at');
     }
 
-    public function scopeWithoutActiveDeals($query, $start, $finish)
+    public function scopeWithoutActiveDeals($query, $start, $end)
     {
         $start = Carbon::parse($start);
-        $finish = Carbon::parse($finish);
-        return $query->whereDoesntHave('deals', function ($query) use ($start, $finish) {
-            $query->overlapping($start, $finish)->whereNull("closed");
+        $end = Carbon::parse($end);
+        return $query->whereDoesntHave('deals', function ($query) use ($start, $end) {
+            $query->whereNull('closed')->overlapping($start, $end);
         });
     }
 
@@ -86,7 +86,7 @@ class Inventory extends Base
     {
         if ($id) {
             return $query->orWhereHas('deals', function ($query) use ($id) {
-                $query->where("deals.id",$id);
+                $query->where("deals.id", $id);
             });
         }
         return $query;
@@ -117,12 +117,13 @@ class Inventory extends Base
         return null;
     }
 
-    public function getCostAttribute() {
+    public function getCostAttribute()
+    {
         $type = [
-          "hour" => "Час",
-          "day" => "День"
+            "hour" => "Час",
+            "day" => "День"
         ];
-        return round($this->rent['price'],2) . ' ' .html_entity_decode(setting('currencies.list.0.code')) . ' / ' . $type[$this->rent['per']];
+        return round($this->rent['price'], 2) . ' ' . html_entity_decode(setting('currencies.list.0.code')) . ' / ' . $type[$this->rent['per']];
     }
 
     public function setPhotosAttribute($value)
@@ -134,7 +135,6 @@ class Inventory extends Base
         }
         $this->attributes['photos'] = $value;
     }
-
 
     public function setRentData($deal)
     {
@@ -175,6 +175,24 @@ class Inventory extends Base
             'total_profit' => isset($value['total_profit']) ? $value['total_profit'] : 0,
         ];
         $this->attributes['rent'] = json_encode($rent);
+    }
+
+    public static function setStatus($dealstatus)
+    {
+        switch ($dealstatus) {
+            case "active":
+            case "islate":
+                return 'onRent';
+                break;
+            case "finished":
+            case "notpaid":
+                return 'available';
+                break;
+            case "waiting":
+            case "planned":
+                return "pending";
+                break;
+        }
     }
 
     public static function getStatuses()
