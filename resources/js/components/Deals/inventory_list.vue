@@ -67,6 +67,7 @@
             this.statuses = this.propStatuses ? JSON.parse(this.propStatuses) : {};
         },
         mounted() {
+            console.log("eys");
         },
         methods: {
             init() {
