@@ -16,7 +16,7 @@
     "/js/deal-document.js": "/js/deal-document.js",
     "/js/sluggenerator.js": "/js/sluggenerator.js",
     "/js/app.js": "/js/app.js",
+    "/js/custom.js": "/js/custom.js",
     "/js/login.js": "/js/login.js",
-    "/css/app.css": "/css/app.css",
-    "/js/custom.js": "/js/custom.js"
+    "/css/app.css": "/css/app.css"
 }
