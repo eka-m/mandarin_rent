@@ -10,7 +10,7 @@
 											@foreach ($deals as $item)
 											<a href="{{route('deals.show',$item->id)}}" class="m-list-search__result-item">
 													<span class="m-list-search__result-item-text">
-															<span class="m-badge m-badge--wide {{$statuses[$item->status]['class']}}">{{$statuses[$item->status]['title']}}</span> 
+															<span class="m-badge m-badge--wide m-badge--{{$statuses[$item->status]['class']}}">{{$statuses[$item->status]['title']}}</span>
 															<span 
 															data-toggle="m-tooltip"
 															data-placement="top"
