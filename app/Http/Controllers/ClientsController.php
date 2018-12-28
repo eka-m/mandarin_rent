@@ -51,6 +51,7 @@ class ClientsController extends BaseController
     private function searchForItem(String $field)
     {
         return Client::where('first_name', 'like', '%' . $field . '%')
+            ->orWhere('id', 'like', '%'. $field .'%')
             ->orWhere('last_name', 'like', '%'. $field .'%')
             ->orwhere('father_name', 'like', '%'. $field .'%')
             ->orWhere('passport_serial', 'like', '%'. $field .'%')
@@ -103,14 +104,14 @@ class ClientsController extends BaseController
         $statuses = Client::getStatuses();
         $deals = [];
 
-        $deals['year'] = $item->deals()->whereYear('finish',Carbon::now()->year)->get();
+        $deals['year'] = $item->deals()->whereYear('start',Carbon::now()->year)->get();
         $deals['year'] = $this->optimizeForGraph($deals['year']->groupBy(function($q) {
-            return Carbon::parse($q->finish)->format('Y-m');
+            return Carbon::parse($q->start)->format('Y-m');
         }));
 
         $deals['all'] = $item->deals;
-        $deals['month'] = $item->deals()->whereMonth('finish',Carbon::now()->month)->get();
-        $deals['today'] = $item->deals()->whereDay('finish',Carbon::now()->day)->get();
+        $deals['month'] = $item->deals()->whereMonth('start',Carbon::now()->month)->get();
+        $deals['today'] = $item->deals()->whereDay('start',Carbon::now()->day)->get();
 
 
         return view('clients.show', compact('item','deals','statuses'));

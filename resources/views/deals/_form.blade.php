@@ -126,11 +126,6 @@
                   </div>
                 </div>
               </div>
-              <div class="row mt-4">
-                <div class="col-12">
-                  <deal-document></deal-document>
-                </div>
-              </div>
             </div>
           </div>
           <div class="row mt-5">
