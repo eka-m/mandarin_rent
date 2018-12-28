@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Client;
+use App\Models\Deal;
 use Illuminate\Http\Request;
 use Kamaln7\Toastr\Facades\Toastr;
 use App\Http\Controllers\BaseController;
@@ -120,7 +121,7 @@ class ClientsController extends BaseController
     public function getClientDeals(Request $request,$id) {
         if($request->ajax()) {
             $deals = Client::find($id)->deals()->orderBy('start','DESC')->paginate(10);
-            $statuses = Client::getStatuses();
+            $statuses = Deal::getStatuses();
             return response()->json(view('clients.client-deals',compact('deals','statuses'))->render());
         }
     }
